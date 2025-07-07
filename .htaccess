@@ -1,0 +1,4 @@
+DirectoryIndex portal/index.php
+# Jika mau redirect penuh:
+# RewriteEngine On
+# RewriteRule ^$ /portal/index.php [L]
