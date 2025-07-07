@@ -1,11 +1,4 @@
 <?php
-/**
- * Koneksi database langsung memakai kredensial publik Railway
- * (mysql://root:WivwFhKvgkNpnRnGAfhfGgPkxntmNFKU@maglev.proxy.rlwy.net:51241/railway)
- * 
- * Catatan produksi: lebih aman simpan kredensial ini di ENV.
- */
-
 $host = 'mysql.railway.internal';
 $port = 3306;
 $user = 'root';
