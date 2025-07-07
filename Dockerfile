@@ -9,14 +9,11 @@ RUN set -ex \
 RUN a2enmod rewrite
 
 # 3. Izinkan .htaccess & buka akses root
-RUN echo '<Directory /var/www/html>
-\
-    AllowOverride All
-\
-    Require all granted
-\
-</Directory>' > /etc/apache2/conf-available/allowoverride.conf \
-    && a2enconf allowoverride
+RUN echo '<Directory /var/www/html>' > /etc/apache2/conf-available/allowoverride.conf && \
+    echo '    AllowOverride All' >> /etc/apache2/conf-available/allowoverride.conf && \
+    echo '    Require all granted' >> /etc/apache2/conf-available/allowoverride.conf && \
+    echo '</Directory>' >> /etc/apache2/conf-available/allowoverride.conf && \
+    a2enconf allowoverride
 
 # 4. Salin source code ke web root
 COPY . /var/www/html/
