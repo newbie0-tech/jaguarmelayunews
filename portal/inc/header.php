@@ -35,7 +35,7 @@ function navColor($n,$m){return $m[$n] ?? '#0d6efd';}
       bottom: -18px;
       width: 100%;
       height: 18px;
-      background: url('/portal/assets/pattern-melayu.png') repeat-x center/auto 100%;
+      background: url('/portal/assets/') repeat-x center/auto 100%;
     }
     .header-inner {
       max-width: 1280px;
