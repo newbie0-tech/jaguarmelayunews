@@ -1,11 +1,13 @@
-# .htaccess di /var/www/html (DocumentRoot: portal)
-
-# Izinkan folder ini diakses
-Require all granted
-
-# Bila ada request ke /portal/<file>...
+# Aktifkan RewriteEngine
 RewriteEngine On
-RewriteRule ^portal/(.*)$ $1 [L]
 
-# Pastikan index default
+# Redirect semua request dari /portal/* ke root /
+RewriteRule ^portal/(.*)$ /$1 [L]
+
+# Pastikan file index default adalah index.php
 DirectoryIndex index.php
+
+# Izinkan semua akses (opsional jika belum diatur di Apache conf)
+<RequireAll>
+  Require all granted
+</RequireAll>
