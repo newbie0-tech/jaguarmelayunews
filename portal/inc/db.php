@@ -1,16 +1,22 @@
 <?php
-// db.php
-ini_set('display_errors',1);
-error_reporting(E_ALL);
+/*
+ | ----------------------------------------------------------------
+ | Koneksi Database (Railway MySQL)
+ | ----------------------------------------------------------------
+ | Mengambil variabel lingkungan yang otomatis disuntikkan Railway
+ | saat layanan web di‑link dengan layanan MySQL. Tetap memberi
+ | fallback ke DB_* jika kamu memilih menamai ulang variabel sendiri.
+ */
 
-$conn = new mysqli(
-    getenv('containers-us-west-1.railway.internal'),
-    getenv('railway'),
-    getenv('linkid99'),
-    getenv('railway'),
-    getenv('3306') ?: 3306
-);
+$host = getenv('MYSQLHOST')      ?: getenv('DB_HOST')      ?: 'mysql.railway.internal';
+$port = getenv('MYSQLPORT')      ?: getenv('DB_PORT')      ?: 3306;
+$user = getenv('MYSQLUSER')      ?: getenv('DB_USER')      ?: 'root';
+$pass = getenv('MYSQLPASSWORD')  ?: getenv('DB_PASS')      ?: '';
+$db   = getenv('MYSQLDATABASE')  ?: getenv('DB_NAME')      ?: 'railway';
+
+// Buat koneksi menggunakan mysqli & aktifkan mode error
+$conn = new mysqli($host, $user, $pass, $db, (int) $port);
 
 if ($conn->connect_error) {
-    die('Koneksi gagal: '.$conn->connect_error);
+    die('Koneksi database gagal: ' . $conn->connect_error);
 }
