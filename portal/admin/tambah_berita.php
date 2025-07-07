@@ -57,8 +57,8 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
 ?>
 <!DOCTYPE html><html lang="id"><head>
 <meta charset="utf-8"><title>Tambah Berita</title>
-<link rel="stylesheet" href="/portal/style.css">
-<script src="/portal/vendor/tinymce/tinymce.min.js"></script>
+<link rel="stylesheet" href="/css/style.css">
+<script src="/vendor/tinymce/tinymce.min.js"></script>
 <script>
   tinymce.init({
     selector:'#isi',height:520,menubar:'file edit view insert format tools table help',
@@ -104,7 +104,7 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
   <button class="btn-submit">Simpan</button>
 </form>
 <div style="margin-top:20px;text-align:center;">
-  <a href="/portal/admin/dashboard.php" style="text-decoration:none;background:#ccc;color:#333;padding:10px 20px;border-radius:4px;font-weight:bold;display:inline-block;">← Kembali ke Dashboard</a>
+  <a href="/admin/dashboard.php" style="text-decoration:none;background:#ccc;color:#333;padding:10px 20px;border-radius:4px;font-weight:bold;display:inline-block;">← Kembali ke Dashboard</a>
 </div>
 </body></html>
 
