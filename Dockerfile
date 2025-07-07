@@ -17,11 +17,10 @@ RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' \
 # 4. Salin source code ke container
 COPY . /var/www/html/
 
-# 5. Folder uploads — buat & ubah owner supaya Apache bisa menulis
-RUN mkdir -p /var/www/html/portal/uploads \
-/var/www/html/portal/assets/ads \
- && chown -R www-data:www-data /var/www/html/portal/uploads
- && chown -R www-data:www-data /var/www/html/portal/assets/ads
+# 5. Siapkan folder uploads & assets/ads lalu ubah owner
+RUN mkdir -p /var/www/html/portal/uploads /var/www/html/portal/assets/ads \
+ && chown -R www-data:www-data /var/www/html/portal/uploads /var/www/html/portal/assets
+
 
 # 6. Izinkan .htaccess di DocumentRoot baru
 RUN echo '<Directory /var/www/html/portal>'  > /etc/apache2/conf-available/allowoverride.conf \
