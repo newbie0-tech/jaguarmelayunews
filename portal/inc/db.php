@@ -6,8 +6,8 @@
  * Catatan produksi: lebih aman simpan kredensial ini di ENV.
  */
 
-$host = 'maglev.proxy.rlwy.net';
-$port = 51241;
+$host = 'mysql.railway.internal';
+$port = 3306;
 $user = 'root';
 $pass = 'UCUNGqgclDfEgpSxKPqoVCmTujycSVWR';
 $db   = 'railway';
