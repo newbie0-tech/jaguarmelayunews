@@ -21,6 +21,7 @@ COPY . /var/www/html/
 RUN mkdir -p /var/www/html/portal/uploads \
 /var/www/html/portal/assets/ads \
  && chown -R www-data:www-data /var/www/html/portal/uploads
+ && chown -R www-data:www-data /var/www/html/portal/assets/ads
 
 # 6. Izinkan .htaccess di DocumentRoot baru
 RUN echo '<Directory /var/www/html/portal>'  > /etc/apache2/conf-available/allowoverride.conf \
