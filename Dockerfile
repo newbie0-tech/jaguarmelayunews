@@ -22,4 +22,4 @@ RUN echo '<Directory /var/www/html/portal>' >  /etc/apache2/conf-available/allow
 
 # 5. Salin source code (repo) → /var/www/html
 COPY . /var/www/html/
-
+RUN echo 'DirectoryIndex index.php' >> /var/www/html/portal/.htaccess
