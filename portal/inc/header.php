@@ -148,9 +148,9 @@ function navColor($n,$m){return $m[$n] ?? '#0d6efd';}
     <div class="separator"></div>
 
     <!-- Iklan terpisah -->
-    <div class="ad-slot"><img src="/portal/assets/ads/iklan1.png" alt="Tauhid Robbani Pekanbaru"></div>
-    <div class="ad-slot"><img src="/portal/assets/ads/iklan2.png" alt="Jurnalis"></div>
-    <div class="ad-slot"><img src="/portal/assets/ads/iklan3.png" alt="Laundry Clean"></div>
+    <div class="ad-slot"><img src="/portal/assets/iklan1.png" alt="Tauhid Robbani Pekanbaru"></div>
+    <div class="ad-slot"><img src="/portal/assets/iklan2.png" alt="Jurnalis"></div>
+    <div class="ad-slot"><img src="/portal/assets/iklan3.png" alt="Laundry Clean"></div>
   </div>
 </header>
 
