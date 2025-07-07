@@ -1,13 +1,9 @@
-# .htaccess (letakkan di: /var/www/html/)
-
-# Izinkan akses ke direktori root
+# .htaccess di /jaguarmelayunews/
 Options +FollowSymLinks
 Require all granted
 
-# Atur portal/index.php sebagai index default
 DirectoryIndex portal/index.php
 
-# (Opsional) Redirect langsung dari / ke portal/index.php
 <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteRule ^$ portal/index.php [L]
