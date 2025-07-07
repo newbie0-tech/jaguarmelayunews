@@ -1,9 +1,1 @@
-Options +FollowSymLinks
-Require all granted
 
-DirectoryIndex portal/index.php
-
-<IfModule mod_rewrite.c>
-  RewriteEngine On
-  RewriteRule ^$ portal/index.php [L]
-</IfModule>
