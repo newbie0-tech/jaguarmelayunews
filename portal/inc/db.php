@@ -9,7 +9,7 @@
 $host = 'mysql.railway.internal';
 $port = 3306;
 $user = 'root';
-$pass = 'UCUNGqgclDfEgpSxKPqoVCmTujycSVWR';
+$pass = 'WivwFhKvgkNpnRnGAfhfGgPkxntmNFKU';
 $db   = 'railway';
 
 $conn = new mysqli($host, $user, $pass, $db, $port);
