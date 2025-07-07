@@ -1,11 +1,18 @@
 <?php
-$host = getenv('MYSQLHOST')      ?: getenv('DB_HOST')      ?: 'mysql.railway.internal';
-$port = getenv('MYSQLPORT')      ?: getenv('DB_PORT')      ?: 3306;
-$user = getenv('MYSQLUSER')      ?: getenv('DB_USER')      ?: 'root';
-$pass = getenv('MYSQLPASSWORD')  ?: getenv('DB_PASS')      ?: '';
-$db   = getenv('MYSQLDATABASE')  ?: getenv('DB_NAME')      ?: 'railway';
+/**
+ * Koneksi database langsung memakai kredensial publik Railway
+ * (mysql://root:WivwFhKvgkNpnRnGAfhfGgPkxntmNFKU@maglev.proxy.rlwy.net:51241/railway)
+ * 
+ * Catatan produksi: lebih aman simpan kredensial ini di ENV.
+ */
 
-$conn = new mysqli($host, $user, $pass, $db, (int) $port);
+$host = 'maglev.proxy.rlwy.net';
+$port = 51241;
+$user = 'root';
+$pass = 'WivwFhKvgkNpnRnGAfhfGgPkxntmNFKU';
+$db   = 'railway';
+
+$conn = new mysqli($host, $user, $pass, $db, $port);
 
 if ($conn->connect_error) {
     die('Koneksi database gagal: ' . $conn->connect_error);
