@@ -1,4 +1,3 @@
-# .htaccess di /jaguarmelayunews/
 Options +FollowSymLinks
 Require all granted
 
