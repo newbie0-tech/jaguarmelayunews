@@ -143,14 +143,14 @@ function navColor($n,$m){return $m[$n] ?? '#0d6efd';}
 
 <header class="site-header">
   <div class="header-inner">
-    <div class="banner-logo"><img src="/assets/logo.png" alt="Logo"></div>
+    <div class="banner-logo"><img src="/portal/assets/logo.png" alt="Logo"></div>
     <h2 class="site-title"><span class="stroke-red ; 1 px">Jaguar </span><span class="stroke-green ; 1 px">Melayu News</h2>
     <div class="separator"></div>
 
     <!-- Iklan terpisah -->
-    <div class="ad-slot"><img src="/assets/ads/iklan1.png" alt="Tauhid Robbani Pekanbaru"></div>
-    <div class="ad-slot"><img src="/assets/ads/iklan2.png" alt="Jurnalis"></div>
-    <div class="ad-slot"><img src="/assets/ads/iklan3.png" alt="Laundry Clean"></div>
+    <div class="ad-slot"><img src="/portal/assets/ads/iklan1.png" alt="Tauhid Robbani Pekanbaru"></div>
+    <div class="ad-slot"><img src="/portal/assets/ads/iklan2.png" alt="Jurnalis"></div>
+    <div class="ad-slot"><img src="/portal/assets/ads/iklan3.png" alt="Laundry Clean"></div>
   </div>
 </header>
 
