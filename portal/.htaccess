@@ -1,0 +1,11 @@
+# .htaccess di /var/www/html (DocumentRoot: portal)
+
+# Izinkan folder ini diakses
+Require all granted
+
+# Bila ada request ke /portal/<file>...
+RewriteEngine On
+RewriteRule ^portal/(.*)$ $1 [L]
+
+# Pastikan index default
+DirectoryIndex index.php
