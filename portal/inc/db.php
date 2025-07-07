@@ -9,7 +9,7 @@
 $host = 'maglev.proxy.rlwy.net';
 $port = 51241;
 $user = 'root';
-$pass = 'WivwFhKvgkNpnRnGAfhfGgPkxntmNFKU';
+$pass = 'UCUNGqgclDfEgpSxKPqoVCmTujycSVWR';
 $db   = 'railway';
 
 $conn = new mysqli($host, $user, $pass, $db, $port);
