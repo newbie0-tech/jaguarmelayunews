@@ -148,6 +148,10 @@ function navColor($n,$m){return $m[$n] ?? '#0d6efd';}
     <div class="separator"></div>
 
     <!-- Iklan terpisah -->
+      <div class="ad-slot"><img src="/portal/assets/ads/iklan1.png" alt="Tauhid Robbani Pekanbaru"></div>
+    <div class="ad-slot"><img src="/portal/assets/ads/iklan2.png" alt="Jurnalis"></div>
+    <div class="ad-slot"><img src="/portal/assets/ads/iklan3.png" alt="Laundry Clean"></div>
+  </div>
     $ads = [];
 if (isset($conn) && $conn instanceof mysqli) {
   $r = $conn->query("SELECT filename, href FROM ads WHERE aktif = 1 ORDER BY id ASC LIMIT 3");
