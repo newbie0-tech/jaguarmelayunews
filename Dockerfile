@@ -19,6 +19,7 @@ COPY . /var/www/html/
 
 # 5. Folder uploads — buat & ubah owner supaya Apache bisa menulis
 RUN mkdir -p /var/www/html/portal/uploads \
+/var/www/html/portal/assets/ads \
  && chown -R www-data:www-data /var/www/html/portal/uploads
 
 # 6. Izinkan .htaccess di DocumentRoot baru
