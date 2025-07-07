@@ -1,4 +1,14 @@
+# .htaccess (letakkan di: /var/www/html/)
+
+# Izinkan akses ke direktori root
+Options +FollowSymLinks
+Require all granted
+
+# Atur portal/index.php sebagai index default
 DirectoryIndex portal/index.php
-# Jika mau redirect penuh:
-# RewriteEngine On
-# RewriteRule ^$ /portal/index.php [L]
+
+# (Opsional) Redirect langsung dari / ke portal/index.php
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteRule ^$ portal/index.php [L]
+</IfModule>
