@@ -1,6 +1,15 @@
 <?php
 // --- inc/footer.php ---
 ?>
+<?php
+/*  ------ VISITOR COUNTER ------  */
+$counterFile = __DIR__.'/visitors.txt';
+if (!file_exists($counterFile)) file_put_contents($counterFile, '0');
+
+$visitors = (int)file_get_contents($counterFile);
+$visitors++;                              // tambah 1 setiap page‑load
+file_put_contents($counterFile, (string)$visitors);
+?>
 <style>
     footer.site-footer{
         background:linear-gradient(90deg,#000 0%, #0d6efd 100%);
@@ -24,14 +33,12 @@
     /* mobile */
     @media(max-width:600px){.site-footer .container{flex-direction:column;gap:24px;text-align:center;}.social-icons a{margin-right:6px;}}
 </style>
-
 <footer class="site-footer">
   <div class="container">
     <div class="footer-col footer-logo">
       <img src="/portal/assets/logo.png" alt="Logo Jaguar Melayu News">
       <p>Portal berita independen yang menyajikan informasi terkini—lokal, nasional, hingga mancanegara.</p>
     </div>
-
     <div class="footer-col">
       <h3>Navigasi</h3>
       <ul>
@@ -42,7 +49,6 @@
         <li><a href="/portal/kontak.php">Alamat / Kontak</a></li>
       </ul>
     </div>
-
     <div class="footer-col">
       <h3>Sosial Media</h3>
       <div class="social-icons">
@@ -52,8 +58,13 @@
       </div>
     </div>
   </div>
+  <div class="copyright">
+  © <?= date('Y') ?> Jaguar Melayu News – All rights reserved.<br>
+  <span style="font-size:13px;color:#ddd;">
+    Total pengunjung: <?= number_format($visitors,0,',','.') ?>
+  </span>
+</div>
 
-  <div class="copyright">© <?= date('Y') ?> Jaguar Melayu News – All rights reserved.</div>
 </footer>
 
 </body>
