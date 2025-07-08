@@ -179,3 +179,43 @@ function navColor($n,$m){return $m[$n] ?? '#0d6efd';}
     </a>
   <?php endforeach; ?>
 </nav>
+<!-- === SEARCH BAR (di bawah header) ====================== -->
+<style>
+  .search-bar{
+    background:#fff;
+    border-bottom:1px solid #ccc;
+    padding:10px 16px;
+  }
+  .search-bar form{
+    max-width:480px;
+    margin:0 auto;
+    display:flex;
+  }
+  .search-bar input[type="text"]{
+    flex:1;
+    padding:8px 12px;
+    font-size:14px;
+    border:1px solid #bbb;
+    border-radius:4px 0 0 4px;
+    outline:none;
+  }
+  .search-bar button{
+    padding:8px 14px;
+    border:none;
+    background:#0057b8;
+    color:#fff;
+    font-size:14px;
+    font-weight:600;
+    border-radius:0 4px 4px 0;
+    cursor:pointer;
+  }
+  .search-bar button:hover{background:#00408a;}
+</style>
+
+<div class="search-bar">
+  <form action="/portal/search.php" method="get">
+    <input type="text" name="q" placeholder="Cari artikel..." required>
+    <button type="submit">Cari</button>
+  </form>
+</div>
+<!-- ======================================================= -->
