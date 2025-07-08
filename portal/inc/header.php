@@ -219,3 +219,49 @@ function navColor($n,$m){return $m[$n] ?? '#0d6efd';}
   </form>
 </div>
 <!-- ======================================================= -->
+      <?php
+// Ambil 5 berita terbaru untuk slider
+$sliderPosts = [];
+if (isset($conn) && $conn instanceof mysqli) {
+  $q = "SELECT slug, judul, gambar FROM posts ORDER BY tanggal DESC LIMIT 5";
+  if ($r = $conn->query($q)) $sliderPosts = $r->fetch_all(MYSQLI_ASSOC);
+}
+?>
+
+<?php if (!empty($sliderPosts)): ?>
+<!-- === SLIDER HEADLINE =================================== -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+<style>
+.slider-wrap{margin:16px auto;max-width:980px}
+.swiper{width:100%;border-radius:8px;overflow:hidden}
+.swiper-slide{position:relative}
+.swiper-slide img{width:100%;height:240px;object-fit:cover}
+.slider-caption{position:absolute;bottom:0;left:0;right:0;padding:12px;background:rgba(0,0,0,0.6);color:#fff;font-size:16px;font-weight:bold;text-shadow:1px 1px 3px #000}
+</style>
+
+<div class="slider-wrap">
+  <div class="swiper">
+    <div class="swiper-wrapper">
+      <?php foreach($sliderPosts as $s): ?>
+        <div class="swiper-slide">
+          <a href="artikel.php?slug=<?= urlencode($s['slug']) ?>">
+            <img src="/portal/<?= $s['gambar'] ?: 'assets/default.jpg' ?>" alt="<?= htmlspecialchars($s['judul']) ?>">
+            <div class="slider-caption"><?= htmlspecialchars($s['judul']) ?></div>
+          </a>
+        </div>
+      <?php endforeach; ?>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script>
+  new Swiper('.swiper', {
+    loop: true,
+    autoplay: { delay: 5000 },
+    speed: 500,
+  });
+</script>
+<!-- ======================================================= -->
+<?php endif; ?>
+
