@@ -1,6 +1,6 @@
 <?php
-require_once __DIR__.'/../inc/db.php';
-require_once __DIR__.'/../inc/header.php';
+require_once __DIR__.'./inc/db.php';
+require_once __DIR__.'./inc/header.php';
 
 $slug = $_GET['slug'] ?? '';
 $slug = preg_replace('/[^a-z0-9-]/i','', $slug); // sanitize
