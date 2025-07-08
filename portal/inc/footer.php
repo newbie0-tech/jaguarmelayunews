@@ -3,7 +3,7 @@
 ?>
 <?php
 /*  ------ VISITOR COUNTER ------  */
-$counterFile = __DIR__.'/visitors.txt';
+$counterFile = __DIR__.'/../data/visitors.txt';
 if (!file_exists($counterFile)) file_put_contents($counterFile, '0');
 
 $visitors = (int)file_get_contents($counterFile);
