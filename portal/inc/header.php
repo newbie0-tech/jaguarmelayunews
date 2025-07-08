@@ -19,8 +19,7 @@ function navColor($n,$m){return $m[$n] ?? '#0d6efd';}
   <meta charset="UTF-8">
   <title><?= htmlspecialchars($title) ?></title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  
-  <style>
+    <style>
     body {font-family: Verdana, sans-serif; margin: 0; background: #f8f9fa;}
     header.site-header {
       position: relative;
