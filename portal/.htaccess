@@ -1,15 +1,9 @@
 # Aktifkan RewriteEngine
 RewriteEngine On
-
 # Redirect semua request dari /portal/* ke root /
 RewriteRule ^portal/(.*)$ /$1 [L]
-<Directory "/var/www/html/portal/data">
-    Require all denied
-</Directory>
-
 # Pastikan file index default adalah index.php
 DirectoryIndex index.php
-
 # Izinkan semua akses (opsional jika belum diatur di Apache conf)
 <RequireAll>
   Require all granted
