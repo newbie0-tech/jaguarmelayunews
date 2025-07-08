@@ -1,7 +1,8 @@
 <?php
+require_once __DIR__.'/../inc/db.php';
+require_once __DIR__.'/../inc/header.php';
 
-require_once dirname(__DIR__).'/inc/db.php';
-require_once dirname(__DIR__).'/inc/header.php';
+
 
 $slug = $_GET['slug'] ?? '';
 $slug = preg_replace('/[^a-z0-9-]/i','', $slug); // sanitize
@@ -19,7 +20,7 @@ $artikel = $stmt->get_result()->fetch_assoc();
 
 if(!$artikel){
     echo "<main style='max-width:800px;margin:60px auto 120px;text-align:center'><h1>404</h1><p>Artikel tidak ditemukan.</p></main>";
-    require_once __DIR__.'/inc/footer.php';
+    require_once __DIR__.'/../inc/footer.php';
     exit;
 }
 ?>
