@@ -23,8 +23,11 @@ RUN mkdir -p /data && chown -R www-data:www-data /data
 RUN ln -sfn ${UPLOAD_DIR} /var/www/html/portal/uploads
 
 # --- izin .htaccess ---
-RUN echo '<Directory /var/www/html/portal>'  > /etc/apache2/conf-available/allowoverride.conf \
- && echo '    AllowOverride All'            >> /etc/apache2/conf-available/allowoverride.conf \
- && echo '    Require all granted'          >> /etc/apache2/conf-available/allowoverride.conf \
- && echo '</Directory>'                     >> /etc/apache2/conf-available/allowoverride.conf \
- && a2enconf allowoverride
+RUN cat > /etc/apache2/conf-available/allowoverride.conf <<'EOF'
+<Directory /var/www/html/portal>
+    AllowOverride All
+    Require all granted
+</Directory>
+EOF
+RUN a2enconf allowoverride
+
