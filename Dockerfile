@@ -17,7 +17,7 @@ COPY . /var/www/html/
 # Railway Volume akan ter‑mount di /data
 ENV UPLOAD_DIR=/data/uploads
 RUN mkdir -p ${UPLOAD_DIR}  && chown -R www-data:www-data ${UPLOAD_DIR}
-RUN mkdir -p /data && chown -R www-data:www-data /data
+RUN mkdir -p /data/uploads && chown -R www-data:www-data /data
 # Symlink agar URL publik tetap /portal/uploads/...
 RUN ln -sfn ${UPLOAD_DIR} /var/www/html/portal/uploads
 
