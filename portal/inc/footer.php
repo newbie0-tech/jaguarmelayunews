@@ -1,8 +1,8 @@
 <?php
 // --- inc/footer.php ---
 ?>
-<?php
-<?php
+<?
+
 /* ===== Hitung visitor sederhana ===== */
 $statsDir = '/data';                  // volume Railway
 if (!is_dir($statsDir)) mkdir($statsDir, 0755, true);
