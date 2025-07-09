@@ -2,13 +2,19 @@
 // --- inc/footer.php ---
 ?>
 <?php
-/*  ------ VISITOR COUNTER ------  */
-$counterFile = __DIR__.'/../data/visitors.txt';
-if (!file_exists($counterFile)) file_put_contents($counterFile, '0');
+<?php
+/* ===== Hitung visitor sederhana ===== */
+$statsDir = '/data';                  // volume Railway
+if (!is_dir($statsDir)) mkdir($statsDir, 0755, true);
 
-$visitors = (int)file_get_contents($counterFile);
-$visitors++;                              // tambah 1 setiap page‑load
-file_put_contents($counterFile, (string)$visitors);
+$file = $statsDir.'/visitors.txt';
+
+$visits = 0;
+if (is_readable($file)) {
+    $visits = (int) file_get_contents($file);
+}
+$visits++;
+file_put_contents($file, $visits, LOCK_EX);
 ?>
 <style>
     footer.site-footer{
@@ -61,7 +67,7 @@ file_put_contents($counterFile, (string)$visitors);
   <div class="copyright">
   © <?= date('Y') ?> Jaguar Melayu News – All rights reserved.<br>
   <span style="font-size:13px;color:#ddd;">
-    Total pengunjung: <?= number_format($visitors,0,',','.') ?>
+    <footer> Pengunjung: <?= $visits ?> </footer>
   </span>
 </div>
 
