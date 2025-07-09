@@ -82,7 +82,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
 <meta charset="utf-8">
 <title>Tambah Berita</title>
-<link rel="stylesheet" href="/portal/style.css">
+<link rel="stylesheet" href="/portal/css/style.css">
 <script src="/portal/vendor/tinymce/tinymce.min.js"></script>
 <script>
 tinymce.init({
