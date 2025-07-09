@@ -39,12 +39,13 @@ function catColor($n,$m){return $m[$n]??'#0d6efd';}
     <h2><?= htmlspecialchars($cat['name']) ?></h2>
 
     <?php while($p=$posts->fetch_assoc()): ?>
-      <article class="news-card">
-        <a href="artikel.php?slug=<?= urlencode($p['slug']) ?>">
-          $imgRel = $p['gambar'] ?: 'assets/placeholder.jpg';    
-$imgSrc = '/portal/' . ltrim($imgRel, '/');             
-?>
-<img src="<?= htmlspecialchars($imgSrc) ?>"
+  <?php 
+      $imgRel = $p['gambar'] ?: 'assets/placeholder.jpg';    
+      $imgSrc = '/portal/' . ltrim($imgRel, '/');
+      ?>
+  <article class="news-card">
+      <a href="artikel.php?slug=<?= urlencode($p['slug']) ?>">
+      <img src="<?= htmlspecialchars($imgSrc) ?>"
      alt="<?= htmlspecialchars($p['judul']) ?>">
           <h3><?= htmlspecialchars($p['judul']) ?></h3>
         </a>
