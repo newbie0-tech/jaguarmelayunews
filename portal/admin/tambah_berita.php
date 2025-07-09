@@ -84,13 +84,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <title>Tambah Berita</title>
 <link rel="stylesheet" href="/portal/css/style.css">
 <script src="/portal/vendor/tinymce/tinymce.min.js"></script>
+   <script src="/portal/vendor/tinymce/tinymce.min.js"></script>
 <script>
-tinymce.init({
-  selector:'#isi',height:520,menubar:'file edit view insert format tools table help',
-  plugins:'preview code lists autolink link image media table autoresize',
-  toolbar:'undo redo | styleselect | bold italic underline | alignleft aligncenter alignright | bullist numlist | link image media table | code preview',
-  branding:false
-});
+  tinymce.init({
+    selector: '#isi',
+    height: 520,
+    menubar: 'file edit view insert format tools table help',
+    plugins: 'preview code lists autolink link image media table autoresize',
+    toolbar: 'undo redo | styleselect | bold italic underline | alignleft aligncenter alignright | bullist numlist | link image media table | code preview',
+    branding: false
+  });
+</script>
 function slugify(s){return s.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'');}
 document.addEventListener('DOMContentLoaded',()=>{
   const jud=document.getElementById('judul');
