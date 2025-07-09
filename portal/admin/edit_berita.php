@@ -6,10 +6,11 @@ require_once __DIR__.'/../inc/db.php';
 $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 if (!$id) { header('Location: daftar_berita.php'); exit; }
 
-$msg = ''; $cats = [];
+$msg = '';
+$uploadDir = '/data/uploads';  // pastikan volume Railway sudah tersedia
 $cats = $conn->query("SELECT id, name FROM categories ORDER BY name")->fetch_all(MYSQLI_ASSOC);
 
-// Data lama
+// Ambil data berita lama
 $stmt = $conn->prepare("SELECT * FROM posts WHERE id=?");
 $stmt->bind_param("i", $id);
 $stmt->execute();
@@ -23,49 +24,50 @@ $katID  = $post['kategori_id'];
 $gambar = $post['gambar'];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $judul = trim($_POST['judul'] ?? '');
-    $slug  = strtolower(preg_replace('/[^a-z0-9]+/i','-', $judul));
-    $isi   = $_POST['isi'] ?? '';
-    $katID = (int)($_POST['kategori'] ?? 0);
+  $judul = trim($_POST['judul'] ?? '');
+  $slug  = strtolower(preg_replace('/[^a-z0-9]+/i','-', $judul));
+  $isi   = $_POST['isi'] ?? '';
+  $katID = (int)($_POST['kategori'] ?? 0);
+  $gambarBaru = $gambar; // default pakai gambar lama
 
-    // Gambar baru
-    $gambar = $post['gambar']; // default pakai yang lama
-if (!empty($_FILES['gambar']['name'])) {
-  $ext = strtolower(pathinfo($_FILES['gambar']['name'], PATHINFO_EXTENSION));
-  $allow = ['jpg', 'jpeg', 'png', 'webp'];
-  $size = $_FILES['gambar']['size'];
+  if (!empty($_FILES['gambar']['name'])) {
+    $ext   = strtolower(pathinfo($_FILES['gambar']['name'], PATHINFO_EXTENSION));
+    $allow = ['jpg', 'jpeg', 'png', 'webp'];
+    $size  = $_FILES['gambar']['size'];
 
-  if (!in_array($ext, $allow)) {
-    $msg = 'Format gambar tidak valid';
-  } elseif ($size > 5 * 1024 * 1024) {
-    $msg = 'Ukuran gambar maksimal 5MB';
-  } else {
-    $fname = time().'_'.rand(100,999).'.'.$ext;
-    $dest  = $uploadDir.'/'.$fname;
-    if (move_uploaded_file($_FILES['gambar']['tmp_name'], $dest)) {
-      $gambar = 'uploads/'.$fname;
+    if (!in_array($ext, $allow)) {
+      $msg = 'Format gambar tidak valid';
+    } elseif ($size > 5 * 1024 * 1024) {
+      $msg = 'Ukuran gambar maksimal 5MB';
+    } elseif ($_FILES['gambar']['error']) {
+      $msg = 'Terjadi kesalahan saat upload gambar';
     } else {
-      $msg = 'Gagal upload gambar.';
+      $fname = time().'_'.rand(100,999).'.'.$ext;
+      $dest  = $uploadDir.'/'.$fname;
+      if (move_uploaded_file($_FILES['gambar']['tmp_name'], $dest)) {
+        $gambarBaru = 'uploads/'.$fname;
+      } else {
+        $msg = 'Gagal menyimpan gambar.';
+      }
     }
-        } else {
-            $msg = 'Format gambar harus jpg/jpeg/png/webp dan < 5 MB';
-        }
-    }
+  }
 
-    if ($judul && $isi && $katID && !$msg) {
-        $upd = $conn->prepare("UPDATE posts SET judul=?, slug=?, isi=?, gambar=?, kategori_id=? WHERE id=?");
-        $upd->bind_param('ssssii', $judul, $slug, $isi, $gambarBaru, $katID, $id);
-        if ($upd->execute()) {
-        header('Location: daftar_berita.php?msg=updated');
-        exit;
+  if ($judul && $isi && $katID && !$msg) {
+    $upd = $conn->prepare("UPDATE posts SET judul=?, slug=?, isi=?, gambar=?, kategori_id=? WHERE id=?");
+    $upd->bind_param('ssssii', $judul, $slug, $isi, $gambarBaru, $katID, $id);
+    if ($upd->execute()) {
+      header('Location: daftar_berita.php?msg=updated'); exit;
+    } else {
+      $msg = 'Gagal memperbarui berita.';
+      if ($upd->errno == 1062) $msg = 'Slug sudah digunakan, ubah judul.';
     }
-    $msg = 'Gagal memperbarui berita.';
-        if ($upd->errno == 1062) $msg = 'Slug sudah digunakan, ubah judul.';
-    } elseif (!$msg) {
-        $msg = 'Semua field wajib diisi.';
-    }
+  } elseif (!$msg) {
+    $msg = 'Semua field wajib diisi.';
+  }
 }
 ?>
+
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
