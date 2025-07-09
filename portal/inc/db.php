@@ -1,5 +1,8 @@
 <?php
-$host = 'mysql.railway.internal';
+/* inc/db.php */
+mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);  // ← deklarasikan dulu
+
+$host = 'mysql.railway.internal';   // hanya dapat di‑resolve di dalam container Railway
 $port = 3306;
 $user = 'root';
 $pass = 'WivwFhKvgkNpnRnGAfhfGgPkxntmNFKU';
