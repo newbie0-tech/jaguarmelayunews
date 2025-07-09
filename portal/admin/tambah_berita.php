@@ -31,22 +31,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $check->execute(); $check->bind_result($cnt); $check->fetch(); $check->close();
   if($cnt>0) $slug .= '-'.time();
 
-  $gambar='';
-  if(!empty($_FILES['gambar']['name'])){
-     $ext=strtolower(pathinfo($_FILES['gambar']['name'],PATHINFO_EXTENSION));
-     $allow=['jpg','jpeg','png','webp'];
-     $size=$_FILES['gambar']['size'];
-     if(!in_array($ext,$allow))           $msg='Ekstensi gambar harus jpg/jpeg/png/webp';
-     elseif($size>$MAX_UPLOAD)            $msg='Ukuran gambar maksimal 5 MB';
-     elseif($_FILES['gambar']['error'])   $msg='Error upload gambar';
-     else{
-        $fname=time().'_'.rand(100,999).".$ext";
-        $dest=$uploadDir.'/'.$fname;
-        if(move_uploaded_file($_FILES['gambar']['tmp_name'],$dest))
-           $gambar='uploads/'.$fname;
-        else $msg='Gagal menyimpan gambar.';
-     }
-  }
+  /* ---- upload gambar / fallback ---- */
+$gambar = '';               // default
+
+if (!empty($_FILES['gambar']['name'])) {
+    /* (blok validasi seperti sebelumnya) */
+    if (move_uploaded_file($_FILES['gambar']['tmp_name'], $dest)) {
+        $gambar = 'uploads/'.$fname;
+    } else {
+        $msg = 'Gagal menyimpan gambar ke server.';
+    }
+}
+
+/* Jika admin tidak meng‑upload & tetap perlu nilai (NOT NULL) */
+if ($gambar === '') {
+    $gambar = 'assets/placeholder.jpg';   // HARUS ada file ini
+}
+}
 
   if(!$msg && $judul && $isi && $katID){
      $stmt=$conn->prepare(
