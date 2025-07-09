@@ -86,14 +86,60 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <script src="/portal/vendor/tinymce/tinymce.min.js"></script>
    <script src="/portal/vendor/tinymce/tinymce.min.js"></script>
 <script>
-  tinymce.init({
-    selector: '#isi',
-    height: 520,
-    menubar: 'file edit view insert format tools table help',
-    plugins: 'preview code lists autolink link image media table autoresize',
-    toolbar: 'undo redo | styleselect | bold italic underline | alignleft aligncenter alignright | bullist numlist | link image media table | code preview',
-    branding: false
+/* ── Inisialisasi TinyMCE ─────────────────────────────── */
+tinymce.init({
+  selector: '#isi',
+  height: 520,
+  menubar: 'file edit view insert format tools table help',
+  plugins: 'preview code lists autolink link image media table autoresize',
+  toolbar: 'undo redo | styleselect | bold italic underline | ' +
+           'alignleft aligncenter alignright | bullist numlist | ' +
+           'link image media table | code preview',
+  branding: false
+});
+
+/* ── util: buat slug dari judul ────────────────────────── */
+function slugify(str) {
+  return str
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')   // ganti spasi/karakter aneh jadi -
+    .replace(/(^-|-$)/g, '');      // hapus - di awal/akhir
+}
+
+/* ── jalankan setelah DOM siap ────────────────────────── */
+document.addEventListener('DOMContentLoaded', () => {
+  /* auto‑slug */
+  const judulInput = document.getElementById('judul');
+  const slugInput  = document.getElementById('slug');
+
+  judulInput.addEventListener('input', () => {
+    slugInput.value = slugify(judulInput.value);
   });
+
+  /* preview gambar */
+  const fileInp = document.getElementById('gambar');
+  const prevImg = document.getElementById('prev');
+  const note    = document.getElementById('note');
+  const MAX_SIZE = 5 * 1024 * 1024;   // 5 MB
+
+  fileInp.addEventListener('change', () => {
+    const file = fileInp.files[0];
+    if (!file) return;
+
+    if (file.size > MAX_SIZE) {
+      alert('Ukuran gambar > 5 MB');
+      fileInp.value = '';
+      prevImg.style.display = 'none';
+      note.textContent = '';
+      return;
+    }
+    prevImg.src   = URL.createObjectURL(file);
+    prevImg.style.display = 'block';
+    note.textContent = Math.round(file.size / 1024) + ' KB';
+  });
+});
+</script>
+
 </script>
 function slugify(s){return s.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'');}
 document.addEventListener('DOMContentLoaded',()=>{
