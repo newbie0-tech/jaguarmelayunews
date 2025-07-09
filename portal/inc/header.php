@@ -242,7 +242,7 @@ if (isset($conn) && $conn instanceof mysqli) {
       <?php foreach($sliderPosts as $s): ?>
         <div class="swiper-slide">
           <a href="artikel.php?slug=<?= urlencode($s['slug']) ?>">
-            <img src="/portal/<?= $s['gambar'] ?: 'assets/default.jpg' ?>" alt="<?= htmlspecialchars($s['judul']) ?>">
+            <img src="/portal/<?= $s['gambar'] ?: 'assets/animasi.jpeg' ?>" alt="<?= htmlspecialchars($s['judul']) ?>">
             <div class="slider-caption"><?= htmlspecialchars($s['judul']) ?></div>
           </a>
         </div>
