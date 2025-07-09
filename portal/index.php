@@ -35,27 +35,24 @@ function catColor($n,$m){return $m[$n]??'#0d6efd';}
       if(!$posts->num_rows) continue;
       $cColor=catColor($cat['name'],$colorMap);
 ?>
-  <section class="section" style="--cat-clr:<?= $cColor ?>">
-    <h2><?= htmlspecialchars($cat['name']) ?></h2>
+  <section class="news-section" style="--cat-clr:<?= $cColor ?>;">
+  <h2 class="cat-title"><?= htmlspecialchars($cat['name']) ?></h2>
 
-    <?php while($p=$posts->fetch_assoc()): ?>
-  <?php 
-      $imgRel = $p['gambar'] ?: 'assets/placeholder.jpg';    
-      $imgSrc = '/portal/' . ltrim($imgRel, '/');
-      ?>
+  <?php while($p = $posts->fetch_assoc()): 
+        $imgRel = $p['gambar'] ?: 'assets/placeholder.jpg';
+        $imgSrc = '/portal/' . ltrim($imgRel, '/');
+  ?>
   <article class="news-card">
-      <a href="artikel.php?slug=<?= urlencode($p['slug']) ?>">
-      <img src="<?= htmlspecialchars($imgSrc) ?>"
-     alt="<?= htmlspecialchars($p['judul']) ?>">
-          <h3><?= htmlspecialchars($p['judul']) ?></h3>
-        </a>
-        <time datetime="<?= $p['tanggal'] ?>">
-          <?= date('d M Y',strtotime($p['tanggal'])) ?>
-        </time>
-      </article>
-    <?php endwhile; ?>
-
-  </section>
+    <a href="artikel.php?slug=<?= urlencode($p['slug']) ?>">
+      <img src="<?= htmlspecialchars($imgSrc) ?>" alt="<?= htmlspecialchars($p['judul']) ?>">
+      <div class="news-info">
+        <h3><?= htmlspecialchars($p['judul']) ?></h3>
+        <time datetime="<?= $p['tanggal'] ?>"><?= date('d M Y', strtotime($p['tanggal'])) ?></time>
+      </div>
+    </a>
+  </article>
+  <?php endwhile; ?>
+</section>
 <?php endforeach; ?>
 </div>
 
