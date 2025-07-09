@@ -73,7 +73,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
 <meta charset="utf-8">
 <title>Tambah Berita</title>
-<link rel="stylesheet" href="/portal/css/style.css">
+<link rel="stylesheet" href="/portal/css/tambah_berita.css">
 <style>
 body {
   background: #f9f9f9;
