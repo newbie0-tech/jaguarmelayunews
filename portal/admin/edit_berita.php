@@ -29,18 +29,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $katID = (int)($_POST['kategori'] ?? 0);
 
     // Gambar baru
-    $gambarBaru = $gambar;
-    if (!empty($_FILES['gambar']['name'])) {
-        $ext   = strtolower(pathinfo($_FILES['gambar']['name'], PATHINFO_EXTENSION));
-        $allow = ['jpg','jpeg','png','webp'];
-        $size  = $_FILES['gambar']['size'];
-        if (in_array($ext, $allow) && $size <= 5*1024*1024) { // 5 MB
-            $fname = time().'_'.rand(100,999).".$ext";
-            $dest  = __DIR__.'/../uploads/'.$fname;
-            if (move_uploaded_file($_FILES['gambar']['tmp_name'], $dest)) {
-                if ($gambar && file_exists(__DIR__.'/../'.$gambar)) unlink(__DIR__.'/../'.$gambar);
-                $gambarBaru = 'uploads/'.$fname;
-            }
+    $gambar = $post['gambar']; // default pakai yang lama
+if (!empty($_FILES['gambar']['name'])) {
+  $ext = strtolower(pathinfo($_FILES['gambar']['name'], PATHINFO_EXTENSION));
+  $allow = ['jpg', 'jpeg', 'png', 'webp'];
+  $size = $_FILES['gambar']['size'];
+
+  if (!in_array($ext, $allow)) {
+    $msg = 'Format gambar tidak valid';
+  } elseif ($size > 5 * 1024 * 1024) {
+    $msg = 'Ukuran gambar maksimal 5MB';
+  } else {
+    $fname = time().'_'.rand(100,999).'.'.$ext;
+    $dest  = $uploadDir.'/'.$fname;
+    if (move_uploaded_file($_FILES['gambar']['tmp_name'], $dest)) {
+      $gambar = 'uploads/'.$fname;
+    } else {
+      $msg = 'Gagal upload gambar.';
+    }
         } else {
             $msg = 'Format gambar harus jpg/jpeg/png/webp dan < 5 MB';
         }
