@@ -1,27 +1,28 @@
 # Image resmi PHP + Apache
 FROM php:8.2-apache
 
-# 1. Install ekstensi PHP yang diperlukan
 RUN set -ex \
-    && docker-php-ext-install mysqli pdo pdo_mysql
+ && docker-php-ext-install mysqli pdo pdo_mysql \
+ && a2enmod rewrite
 
-# 2. Aktifkan mod_rewrite Apache
-RUN a2enmod rewrite
-
-# 3. Tentukan DocumentRoot → /var/www/html/portal
 ENV APACHE_DOCUMENT_ROOT=/var/www/html/portal
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' \
     /etc/apache2/sites-available/*.conf \
     /etc/apache2/conf-available/*.conf
 
-# 4. Salin source code ke container
+# --- copy source code ---
 COPY . /var/www/html/
 
-# 5. Siapkan folder uploads & assets/ads lalu ubah owner
-RUN mkdir -p /var/www/html/portal/uploads /var/www/html/portal/assets/ads \
- && chown -R www-data:www-data /var/www/html/portal/uploads /var/www/html/portal/assets /var/www/html/portal/data 
+# --- siapkan volume uploads ---
+# Railway Volume akan ter‑mount di /data
+ENV UPLOAD_DIR=/data/uploads
+RUN mkdir -p ${UPLOAD_DIR} \
+ && chown -R www-data:www-data ${UPLOAD_DIR}
 
-# 6. Izinkan .htaccess di DocumentRoot baru
+# Symlink agar URL publik tetap /portal/uploads/...
+RUN ln -sfn ${UPLOAD_DIR} /var/www/html/portal/uploads
+
+# --- izin .htaccess ---
 RUN echo '<Directory /var/www/html/portal>'  > /etc/apache2/conf-available/allowoverride.conf \
  && echo '    AllowOverride All'            >> /etc/apache2/conf-available/allowoverride.conf \
  && echo '    Require all granted'          >> /etc/apache2/conf-available/allowoverride.conf \
