@@ -1,15 +1,17 @@
 <?php
 session_start();
-if (!isset($_SESSION['admin'])) { header('Location: login.php'); exit; }
+if (!isset($_SESSION['admin']) || !is_numeric($_SESSION['admin'])) {
+  header('Location: login.php'); exit;
+}
 
 require_once __DIR__.'/../inc/db.php';
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
 $msg=''; $judul=$isi=$tags=''; $katID=0; $slug=''; $status=1;
 $MAX_UPLOAD = 5 * 1024 * 1024;
-$uploadDir  = '/data/uploads'; // folder volume Railway
+$uploadDir = '/data/uploads'; // Railway volume
 
-if (!is_dir($uploadDir)) mkdir($uploadDir,0755,true);
+if (!is_dir($uploadDir)) mkdir($uploadDir, 0755, true);
 
 $cats = $conn->query("SELECT id,name FROM categories ORDER BY name")?->fetch_all(MYSQLI_ASSOC) ?? [];
 
@@ -25,6 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $status = ($_POST['status'] ?? '1') === '1' ? 1 : 0;
   $slug   = make_slug($judul);
 
+  // Pastikan slug unik
   $check = $conn->prepare("SELECT COUNT(*) FROM posts WHERE slug=?");
   $check->bind_param('s',$slug);
   $check->execute(); $check->bind_result($cnt); $check->fetch(); $check->close();
@@ -42,31 +45,41 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     else {
       $fname = time().'_'.rand(100,999).".$ext";
       $dest = $uploadDir.'/'.$fname;
-      if (move_uploaded_file($_FILES['gambar']['tmp_name'], $dest))
-        $gambar = 'uploads/'.$fname; // path relatif
-      else
-        $msg = 'Gagal menyimpan gambar.';
+
+      if (move_uploaded_file($_FILES['gambar']['tmp_name'], $dest)) {
+        $gambar = 'uploads/'.$fname;
+      } else {
+        $msg = 'Gagal menyimpan gambar ke '.$dest;
+      }
     }
   }
+
   if ($gambar === '') $gambar = 'assets/placeholder.jpg';
 
   if (!$msg && $judul && $isi && $katID) {
     $stmt = $conn->prepare("INSERT INTO posts (judul,slug,isi,tags,status,gambar,kategori_id,penulis_id) VALUES (?,?,?,?,?,?,?,?)");
-    $penulis = $_SESSION['admin'];
+    $penulis = (int)$_SESSION['admin']; // penting! pastikan ini int
+
     $stmt->bind_param('ssssisii', $judul, $slug, $isi, $tags, $status, $gambar, $katID, $penulis);
 
-    if ($stmt->execute()) {
-      $msg = 'Berita berhasil disimpan!';
-      $judul = $isi = $tags = ''; $katID = 0; $slug = ''; $status = 1;
-    } else {
-      $msg = 'Gagal menambahkan berita: '.$stmt->error;
+    try {
+      if ($stmt->execute()) {
+        $msg = 'Berita berhasil disimpan!';
+        $judul = $isi = $tags = ''; $katID = 0; $slug = ''; $status = 1;
+      } else {
+        $msg = 'Gagal menambahkan berita.';
+      }
+    } catch (mysqli_sql_exception $e) {
+      $msg = 'Kesalahan saat menyimpan: '.$e->getMessage();
     }
+
     $stmt->close();
   } elseif (!$msg) {
     $msg = 'Semua field wajib diisi.';
   }
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
