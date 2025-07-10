@@ -1,6 +1,4 @@
 <?php
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
 
 session_start();
 if (!isset($_SESSION['admin']) || !is_numeric($_SESSION['admin'])) {
@@ -91,46 +89,53 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <link rel="stylesheet" href="/portal/css/tambah_berita.css">
   <script src="/portal/vendor/tinymce/tinymce.min.js"></script>
   <script>
-  tinymce.init({
-    selector:'#isi',
-    height:520,
-    menubar:'file edit view insert format tools table help',
-    plugins:'preview code lists autolink link image media table autoresize',
-    toolbar:'undo redo | styleselect | bold italic underline | alignleft aligncenter alignright | bullist numlist | link image media table | code preview',
-    branding:false
+  <script>
+tinymce.init({
+  selector:'#isi',
+  height:520,
+  menubar:'file edit view insert format tools table help',
+  plugins:'preview code lists autolink link image media table autoresize',
+  toolbar:'undo redo | styleselect | bold italic underline | alignleft aligncenter alignright | bullist numlist | link image media table | code preview',
+  branding:false
+});
+
+function slugify(str) {
+  return str.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'');
+}
+
+document.addEventListener('DOMContentLoaded', ()=>{
+  const judul = document.getElementById('judul');
+  const slug  = document.getElementById('slug');
+  const file  = document.getElementById('gambar');
+  const prev  = document.getElementById('prev');
+  const note  = document.getElementById('note');
+  const form  = document.querySelector('form');
+
+  judul.addEventListener('input', ()=> {
+    slug.value = slugify(judul.value);
   });
 
-  function slugify(str) {
-    return str.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'');
-  }
-
-  document.addEventListener('DOMContentLoaded', ()=>{
-    const judul = document.getElementById('judul');
-    const slug  = document.getElementById('slug');
-    const file  = document.getElementById('gambar');
-    const prev  = document.getElementById('prev');
-    const note  = document.getElementById('note');
-
-    judul.addEventListener('input', ()=> {
-      slug.value = slugify(judul.value);
-    });
-
-    file.addEventListener('change', ()=>{
-      const f = file.files[0];
-      if (!f) return;
-      if (f.size > <?= $MAX_UPLOAD ?>) {
-        alert('Ukuran gambar > 5 MB');
-        file.value = '';
-        prev.style.display='none';
-        note.textContent='';
-        return;
-      }
-      prev.src = URL.createObjectURL(f);
-      prev.style.display = 'block';
-      note.textContent = Math.round(f.size / 1024) + ' KB';
-    });
+  file.addEventListener('change', ()=>{
+    const f = file.files[0];
+    if (!f) return;
+    if (f.size > <?= $MAX_UPLOAD ?>) {
+      alert('Ukuran gambar > 5 MB');
+      file.value = '';
+      prev.style.display='none';
+      note.textContent='';
+      return;
+    }
+    prev.src = URL.createObjectURL(f);
+    prev.style.display = 'block';
+    note.textContent = Math.round(f.size / 1024) + ' KB';
   });
-  </script>
+
+  // FIX submit: kirim konten TinyMCE ke textarea
+  form.addEventListener('submit', () => {
+    tinymce.triggerSave();
+  });
+});
+</script>
 </head>
 <body>
 <div class="form-wrapper">
