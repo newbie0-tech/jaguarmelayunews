@@ -69,14 +69,9 @@ $populer = $conn->query("SELECT judul,slug FROM posts WHERE status=1 ORDER BY vi
   <aside class="sidebar">
     <h3>Jaguar Channel</h3>
     <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;">
-      <iframe src="https://www.youtube.com/@teamgampemburusejarahmelay3314" frameborder="0" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
+      <iframe src="https://www.youtube.com/embed/@teamgampemburusejarahmelay3314" frameborder="0" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
     </div>
-    <div class="share-btns" style="margin-top:10px;">
-      <li><a class="wa" href="https://wa.me/?text=Simak%20video%20ini%20https://youtu.be/" target="_blank">WhatsApp</a></div></li>
-      <li><a class="fb" href="https://www.facebook.com/sharer/sharer.php?u=https://youtu.be/VIDEO_ID_KAMU" target="_blank">Facebook</a></li>
-      <li><a class="tt" href="https://www.tiktok.com/@jaguarmelayunews" target="_blank">TikTok</a></li>
-    </div>
-  </aside>
+      </aside></div>
 <div class="main-grid">
     <!-- Konten utama berita -->
   <div class="news-content">
