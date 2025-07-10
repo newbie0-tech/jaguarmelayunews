@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="/portal/css/style.css">
 <header class="site-header">
   <div class="header-inner">
     <div class="banner-logo"><img src="/portal/assets/logo.png" alt="Logo"></div>
