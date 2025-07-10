@@ -117,7 +117,7 @@ h1.page-title {
   <!-- YouTube Embed -->
   <div class="youtube-embed">
     <h3 style="font-size:22px; margin-bottom:12px; color:#d00000;">Jaguar Channel</h3>
-    <iframe src="https://www.youtube.com/embed/shorts/zWiHMaESQB0" allowfullscreen></iframe>
+    <iframe src="https://www.youtube.com/embed/watch?v=pG0RgDw55kI&ab_channel=TEAMGAMPEMBURUSEJARAHMELAYU" allowfullscreen></iframe>
   </div>
   <h1 class="page-title">Berita Terbaru</h1>
 
