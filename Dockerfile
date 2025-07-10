@@ -16,12 +16,11 @@ COPY . /var/www/html/
 # --- siapkan volume uploads ---
 # Railway Volume akan ter‑mount di /data
 ENV UPLOAD_DIR=/data/uploads
-RUN mkdir -p ${UPLOAD_DIR}  && chown -R www-data:www-data ${UPLOAD_DIR}
-RUN mkdir -p /data/uploads && chown -R www-data:www-data /data
+RUN mkdir -p ${UPLOAD_DIR}\  && chown -R www-data:www-data ${UPLOAD_DIR}\
+                             && chown -R 755 ${UPLOADS_DIR}
 # Symlink agar URL publik tetap /portal/uploads/...
 RUN ln -sfn /data/uploads /var/www/html/portal/uploads
-
-
+    
 # --- izin .htaccess ---
 RUN cat > /etc/apache2/conf-available/allowoverride.conf <<'EOF'
 <Directory /var/www/html/portal>
