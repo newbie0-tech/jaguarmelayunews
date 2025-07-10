@@ -80,3 +80,16 @@
   font-size: 12px;
   color: #666;
 }
+.btn-share {
+  display: inline-block;
+  margin: 6px 6px 0 0;
+  padding: 8px 12px;
+  font-size: 14px;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 4px;
+  font-weight: bold;
+}
+.btn-share.wa { background: #25D366; }
+.btn-share.fb { background: #3b5998; }
+.btn-share.tiktok { background: #000; }
