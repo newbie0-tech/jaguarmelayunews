@@ -7,10 +7,9 @@ $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 if (!$id) { header('Location: daftar_berita.php'); exit; }
 
 $msg = '';
-$uploadDir = '/data/uploads';  // pastikan volume Railway sudah tersedia
+$uploadDir = '/data/uploads';
 $cats = $conn->query("SELECT id, name FROM categories ORDER BY name")->fetch_all(MYSQLI_ASSOC);
 
-// Ambil data berita lama
 $stmt = $conn->prepare("SELECT * FROM posts WHERE id=?");
 $stmt->bind_param("i", $id);
 $stmt->execute();
@@ -28,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $slug  = strtolower(preg_replace('/[^a-z0-9]+/i','-', $judul));
   $isi   = $_POST['isi'] ?? '';
   $katID = (int)($_POST['kategori'] ?? 0);
-  $gambarBaru = $gambar; // default pakai gambar lama
+  $gambarBaru = $gambar;
 
   if (!empty($_FILES['gambar']['name'])) {
     $ext   = strtolower(pathinfo($_FILES['gambar']['name'], PATHINFO_EXTENSION));
@@ -67,38 +66,51 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
   <meta charset="utf-8">
   <title>Edit Berita</title>
   <link rel="stylesheet" href="/portal/style.css">
-  <script src="/portal/vendor/tinymce/tinymce.min.js"></script>
+  <script src="https://cdn.ckeditor.com/ckeditor5/41.0.0/classic/ckeditor.js"></script>
   <script>
-    tinymce.init({
-      selector:'#isi',
-      height: 700,                // diperbesar
-      menubar: 'file edit view insert format tools table help',
-      plugins: 'preview code lists autolink link image media table autoresize',
-      toolbar: 'undo redo | styleselect | bold italic underline | alignleft aligncenter alignright | bullist numlist | link image media table | code preview',
-      branding: false
-    });
-    function slugify(str){return str.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'');}
-    document.addEventListener('DOMContentLoaded',()=>{
-      const jud=document.getElementById('judul');
-      const s=document.getElementById('slug');
-      jud.addEventListener('input',()=>{s.value=slugify(jud.value);});
-      const fileInp=document.getElementById('gambar');
-      const prev=document.getElementById('prev');
-      const note=document.getElementById('note');
+    function slugify(str){
+      return str.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'');
+    }
+
+    document.addEventListener('DOMContentLoaded', ()=>{
+      const jud = document.getElementById('judul');
+      const s   = document.getElementById('slug');
+      const fileInp = document.getElementById('gambar');
+      const prev = document.getElementById('prev');
+      const note = document.getElementById('note');
+
+      jud.addEventListener('input',()=>{ s.value = slugify(jud.value); });
+
       fileInp.addEventListener('change',()=>{
         if(fileInp.files[0]){
-          const f=fileInp.files[0];
-          if(f.size>5*1024*1024){alert('Ukuran gambar > 5MB');fileInp.value='';prev.style.display='none';note.textContent='';return;}
-          prev.src=URL.createObjectURL(f);prev.style.display='block';note.textContent=Math.round(f.size/1024)+' KB';
+          const f = fileInp.files[0];
+          if(f.size > 5 * 1024 * 1024){
+            alert('Ukuran gambar > 5MB');
+            fileInp.value=''; prev.style.display='none'; note.textContent=''; return;
+          }
+          prev.src = URL.createObjectURL(f);
+          prev.style.display = 'block';
+          note.textContent = Math.round(f.size/1024)+' KB';
         }
       });
+
+      // CKEditor
+      ClassicEditor
+        .create(document.querySelector('#isi'), {
+          toolbar: [
+            'heading', '|',
+            'bold', 'italic', 'underline', '|',
+            'link', 'bulletedList', 'numberedList', '|',
+            'insertTable', 'mediaEmbed', 'undo', 'redo'
+          ]
+        })
+        .catch(error => { console.error(error); });
     });
   </script>
   <style>
