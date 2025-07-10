@@ -3,23 +3,27 @@ session_start();
 if (!isset($_SESSION['admin']) || !is_numeric($_SESSION['admin'])) {
   header('Location: login.php'); exit;
 }
-require_once __DIR__.'/../inc/db.php';
-mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
-$MAX_UPLOAD = 5 * 1024 * 1024;
-$uploadDir = __DIR__ . '/../data/uploads';
-if (!is_dir($uploadDir)) mkdir($uploadDir, 0755, true);
+require_once __DIR__ . '/../inc/db.php';
+mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
 $msg = '';
 $judul = $isi = $tags = '';
-$katID = 0; $slug = ''; $status = 1;
-$gambar = 'assets/placeholder.jpg';
+$katID = 0;
+$status = 1;
+$slug = '';
+$MAX_UPLOAD = 5 * 1024 * 1024;
+$uploadDir = realpath(__DIR__ . '/../uploads');
+
+if (!is_dir($uploadDir)) {
+  mkdir($uploadDir, 0755, true); // buat folder jika belum ada
+}
+
+$cats = $conn->query("SELECT id,name FROM categories ORDER BY name")->fetch_all(MYSQLI_ASSOC);
 
 function make_slug($str) {
   return trim(strtolower(preg_replace('/[^a-z0-9]+/i','-', $str)), '-');
 }
-
-$cats = $conn->query("SELECT id,name FROM categories ORDER BY name")->fetch_all(MYSQLI_ASSOC);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $judul  = trim($_POST['judul'] ?? '');
@@ -29,50 +33,56 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $status = ($_POST['status'] ?? '1') === '1' ? 1 : 0;
   $slug   = make_slug($judul);
 
-  // Cek slug unik
-  $cek = $conn->prepare("SELECT COUNT(*) FROM posts WHERE slug=?");
-  $cek->bind_param("s", $slug);
-  $cek->execute(); $cek->bind_result($count); $cek->fetch(); $cek->close();
-  if ($count > 0) $slug .= '-' . time();
+  // cek slug unik
+  $check = $conn->prepare("SELECT COUNT(*) FROM posts WHERE slug=?");
+  $check->bind_param('s', $slug);
+  $check->execute();
+  $check->bind_result($cnt);
+  $check->fetch();
+  $check->close();
+  if ($cnt > 0) $slug .= '-' . time();
 
-  // Gambar
+  // proses upload gambar
+  $gambar = '';
   if (!empty($_FILES['gambar']['name'])) {
     $ext = strtolower(pathinfo($_FILES['gambar']['name'], PATHINFO_EXTENSION));
-    $size = $_FILES['gambar']['size'];
     $allow = ['jpg','jpeg','png','webp'];
+    $size = $_FILES['gambar']['size'];
 
-    if (!in_array($ext, $allow)) $msg = 'Format gambar tidak valid';
-    elseif ($size > $MAX_UPLOAD) $msg = 'Ukuran gambar maksimal 5MB';
-    elseif ($_FILES['gambar']['error']) $msg = 'Terjadi kesalahan saat upload gambar';
+    if (!in_array($ext, $allow))        $msg = 'Ekstensi gambar harus jpg/jpeg/png/webp';
+    elseif ($size > $MAX_UPLOAD)        $msg = 'Ukuran gambar maksimal 5 MB';
+    elseif ($_FILES['gambar']['error']) $msg = 'Terjadi error saat upload';
     else {
-      $fname = time().'_'.rand(100,999).".$ext";
-      $dest  = "$uploadDir/$fname";
+      $fname = time() . '_' . rand(100,999) . ".$ext";
+      $dest = $uploadDir . '/' . $fname;
       if (move_uploaded_file($_FILES['gambar']['tmp_name'], $dest)) {
-        $gambar = 'uploads/'.$fname;
+        $gambar = 'uploads/' . $fname;
       } else {
-        $msg = 'Gagal menyimpan gambar';
+        $msg = 'Gagal menyimpan gambar.';
       }
     }
   }
 
-  if (!$msg && $judul && $isi && $katID) {
-    $stmt = $conn->prepare("INSERT INTO posts (judul,slug,isi,tags,status,gambar,kategori_id,penulis_id) VALUES (?,?,?,?,?,?,?,?)");
-    $penulis = (int)$_SESSION['admin'];
-    $stmt->bind_param("ssssisii", $judul, $slug, $isi, $tags, $status, $gambar, $katID, $penulis);
+  if (!$gambar) $gambar = 'assets/placeholder.jpg';
 
+  if (!$msg && $judul && $isi && $katID) {
+    $stmt = $conn->prepare("INSERT INTO posts (judul, slug, isi, tags, status, gambar, kategori_id, penulis_id)
+                            VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+    $penulis = (int)$_SESSION['admin'];
+    $stmt->bind_param('ssssisii', $judul, $slug, $isi, $tags, $status, $gambar, $katID, $penulis);
     try {
       if ($stmt->execute()) {
-        $msg = "Berita berhasil disimpan!";
-        $judul = $isi = $tags = ''; $katID = 0; $status = 1;
+        $msg = '✅ Berita berhasil disimpan.';
+        $judul = $isi = $tags = ''; $katID = 0; $status = 1; $slug = '';
       } else {
-        $msg = "Gagal menyimpan berita.";
+        $msg = '❌ Gagal menambahkan berita.';
       }
-    } catch (Exception $e) {
-      $msg = "Kesalahan: " . $e->getMessage();
+    } catch (mysqli_sql_exception $e) {
+      $msg = '❌ Error: ' . $e->getMessage();
     }
     $stmt->close();
   } elseif (!$msg) {
-    $msg = "Semua field wajib diisi.";
+    $msg = '❌ Semua field wajib diisi.';
   }
 }
 ?>
@@ -80,83 +90,48 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="utf-8">
   <title>Tambah Berita</title>
   <link rel="stylesheet" href="/portal/css/tambah_berita.css">
   <script src="https://cdn.ckeditor.com/ckeditor5/41.0.0/classic/ckeditor.js"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      // CKEditor init
-      ClassicEditor.create(document.querySelector('#isi'))
-        .catch(err => console.error(err));
-
-      // Slug otomatis
-      const judul = document.getElementById('judul');
-      const slug  = document.getElementById('slug');
-      judul.addEventListener('input', () => {
-        slug.value = judul.value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
-      });
-
-      // Preview gambar
-      const file = document.getElementById('gambar');
-      const prev = document.getElementById('prev');
-      const note = document.getElementById('note');
-      file.addEventListener('change', () => {
-        const f = file.files[0];
-        if (!f) return;
-        if (f.size > <?= $MAX_UPLOAD ?>) {
-          alert("Ukuran gambar > 5MB");
-          file.value = '';
-          prev.style.display = 'none';
-          note.textContent = '';
-        } else {
-          prev.src = URL.createObjectURL(f);
-          prev.style.display = 'block';
-          note.textContent = Math.round(f.size / 1024) + ' KB';
-        }
-      });
-    });
-  </script>
+  <style>
+    .form-wrapper { max-width: 880px; margin: 30px auto; background: #fff; padding: 40px; border-radius: 8px; box-shadow: 0 4px 14px rgba(0,0,0,.08); }
+    .form-group { margin-bottom: 22px; }
+    label { font-weight: 600; margin-bottom: 8px; display: block; font-size: 15px; }
+    input, select, textarea { width: 100%; padding: 14px; font-size: 15px; border: 1px solid #ccc; border-radius: 4px; }
+    textarea { min-height: 380px; }
+    .btn-submit { padding: 12px 28px; background: #0057b8; color: #fff; border: none; border-radius: 4px; font-size: 16px; font-weight: 600; cursor: pointer; }
+    .btn-submit:hover { background: #00408a; }
+    .alert { background: #e9ffe9; color: #155724; padding: 12px 16px; border-radius: 4px; margin-bottom: 22px; text-align: center; }
+    .preview-img { max-width: 260px; margin-top: 8px; border: 1px solid #ddd; border-radius: 4px }
+    .note { font-size: 12px; color: #666; margin-top: 4px; }
+  </style>
 </head>
 <body>
 <div class="form-wrapper">
-  <h1>Tambah Berita</h1>
+  <h1 style="text-align:center;color:#0057b8;margin-top:0">Tambah Berita</h1>
   <?php if ($msg): ?><div class="alert"><?= htmlspecialchars($msg) ?></div><?php endif; ?>
-
   <form method="post" enctype="multipart/form-data">
-    <div class="form-group">
-      <label>Judul</label>
-      <input id="judul" name="judul" value="<?= htmlspecialchars($judul) ?>" required>
-    </div>
-    <div class="form-group">
-      <label>Slug</label>
-      <input id="slug" name="slug" value="<?= htmlspecialchars($slug) ?>" readonly>
-    </div>
-    <div class="form-group">
-      <label>Kategori</label>
+    <div class="form-group"><label>Judul</label><input id="judul" name="judul" value="<?= htmlspecialchars($judul) ?>" required></div>
+    <div class="form-group"><label>Slug</label><input id="slug" name="slug" value="<?= htmlspecialchars($slug) ?>" readonly></div>
+    <div class="form-group"><label>Kategori</label>
       <select name="kategori" required>
-        <option value="">-- Pilih Kategori --</option>
+        <option value="">--Pilih Kategori--</option>
         <?php foreach ($cats as $c): ?>
           <option value="<?= $c['id'] ?>" <?= $katID == $c['id'] ? 'selected' : '' ?>><?= $c['name'] ?></option>
         <?php endforeach; ?>
       </select>
     </div>
-    <div class="form-group">
-      <label>Isi Berita</label>
-      <textarea id="isi" name="isi"><?= htmlspecialchars($isi) ?></textarea>
+    <div class="form-group"><label>Isi Berita</label>
+      <textarea id="isi" name="isi" required><?= htmlspecialchars($isi) ?></textarea>
     </div>
-    <div class="form-group">
-      <label>Gambar Utama</label>
+    <div class="form-group"><label>Gambar Utama (opsional, max 5MB)</label>
       <input type="file" id="gambar" name="gambar" accept="image/*">
       <img id="prev" class="preview-img" style="display:none">
       <div id="note" class="note"></div>
     </div>
-    <div class="form-group">
-      <label>Tags (pisah koma)</label>
-      <input name="tags" value="<?= htmlspecialchars($tags) ?>">
-    </div>
-    <div class="form-group">
-      <label>Status</label>
+    <div class="form-group"><label>Tags</label><input name="tags" value="<?= htmlspecialchars($tags) ?>"></div>
+    <div class="form-group"><label>Status</label>
       <select name="status">
         <option value="1" <?= $status == 1 ? 'selected' : '' ?>>Publish</option>
         <option value="0" <?= $status == 0 ? 'selected' : '' ?>>Draft</option>
@@ -164,11 +139,41 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
     <button class="btn-submit">Simpan</button>
   </form>
-
-  <div style="text-align:center;margin-top:20px">
-    <a href="/portal/admin/dashboard.php" class="back-link">← Kembali ke Dashboard</a>
-  </div>
 </div>
-<?php require_once __DIR__.'/../inc/footer.php'; ?>
+
+<script>
+function slugify(str) {
+  return str.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'');
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const judul = document.getElementById('judul');
+  const slug  = document.getElementById('slug');
+  const file  = document.getElementById('gambar');
+  const prev  = document.getElementById('prev');
+  const note  = document.getElementById('note');
+
+  judul.addEventListener('input', () => slug.value = slugify(judul.value));
+
+  file.addEventListener('change', () => {
+    const f = file.files[0];
+    if (!f) return;
+    if (f.size > <?= $MAX_UPLOAD ?>) {
+      alert('Ukuran gambar > 5 MB');
+      file.value = '';
+      prev.style.display = 'none';
+      note.textContent = '';
+      return;
+    }
+    prev.src = URL.createObjectURL(f);
+    prev.style.display = 'block';
+    note.textContent = Math.round(f.size / 1024) + ' KB';
+  });
+
+  ClassicEditor.create(document.querySelector('#isi'), {
+    toolbar: ['heading','|','bold','italic','underline','|','link','bulletedList','numberedList','|','insertTable','mediaEmbed','undo','redo']
+  }).catch(error => console.error(error));
+});
+</script>
 </body>
 </html>
