@@ -16,108 +16,168 @@ $colorMap = [
 ];
 function catColor($n,$m){ return $m[$n] ?? '#0d6efd'; }
 
-// Ambil 5 berita populer
 $populer = $conn->query("SELECT judul,slug FROM posts WHERE status=1 ORDER BY views DESC LIMIT 5")?->fetch_all(MYSQLI_ASSOC) ?? [];
 ?>
+
 <link rel="stylesheet" href="/portal/css/index.css">
 <style>
+body {
+  background: #f8f9fa;
+  font-family: Verdana, sans-serif;
+}
+.page-wrapper {
+  max-width: 1280px;
+  margin: auto;
+  padding: 20px;
+}
+.youtube-embed {
+  margin-bottom: 30px;
+  text-align: center;
+}
+.youtube-embed iframe {
+  width: 100%;
+  max-width: 800px;
+  height: 450px;
+  border-radius: 8px;
+  border: none;
+}
+h1.page-title {
+  text-align: center;
+  font-size: 32px;
+  margin-top: 0;
+  color: #5a3e1b;
+}
 .main-grid {
   display: grid;
-  grid-template-columns: 1fr 3fr 1.2fr;
-  gap: 20px;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
+  grid-template-columns: 1.2fr 3fr 1.2fr;
+  gap: 24px;
+  margin-top: 20px;
 }
 .sidebar, .news-content {
   background: #fff;
-  padding: 16px;
+  padding: 16px 20px;
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0,0,0,0.05);
 }
 .sidebar h3 {
-  margin-top: 0;
   font-size: 18px;
-  border-bottom: 1px solid #ccc;
-  padding-bottom: 8px;
+  border-bottom: 2px solid #ccc;
+  margin-bottom: 12px;
+  padding-bottom: 6px;
 }
 .popular-list li {
-  margin: 10px 0;
+  margin: 8px 0;
+  list-style-type: square;
 }
 .popular-list a {
-  color: #0057b8;
+  color: #0056b3;
   text-decoration: none;
 }
-.share-btns a {
-  margin: 6px 6px 0 0;
-  padding: 8px 12px;
-  font-size: 13px;
-  color: #fff;
-  text-decoration: none;
+.news-section {
+  margin-bottom: 40px;
+}
+.cat-title {
+  font-size: 20px;
+  color: var(--cat-clr);
+  margin-bottom: 16px;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 4px;
+}
+.news-card {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 18px;
+  background: #fdfdfd;
+  border-radius: 6px;
+  overflow: hidden;
+}
+.news-card img {
+  width: 120px;
+  height: 80px;
+  object-fit: cover;
   border-radius: 4px;
-  font-weight: bold;
 }
-.share-btns .wa { background: #25D366; }
-.share-btns .fb { background: #3b5998; }
-.share-btns .tt { background: #000; }
+.news-info h3 {
+  margin: 0 0 4px;
+  font-size: 16px;
+  color: #333;
+}
+.news-info time {
+  font-size: 13px;
+  color: #666;
+}
+@media (max-width: 992px) {
+  .main-grid {
+    grid-template-columns: 1fr;
+  }
+}
 </style>
 
-<h1 class="page-title">Berita Terbaru</h1>
-
-<div class="main-grid">
-  <!-- Sidebar KIRI: YouTube -->
-  <aside class="sidebar">
-    <h3>Jaguar Channel</h3>
-    <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;">
-      <iframe src="https://www.youtube.com/embed/@teamgampemburusejarahmelay3314" frameborder="0" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
-    </div>
-      </aside></div>
-<div class="main-grid">
-    <!-- Konten utama berita -->
-  <div class="news-content">
-    <?php foreach($categories as $cat):
-      $stmt = $conn->prepare("
-        SELECT judul,slug,gambar,tanggal
-        FROM posts
-        WHERE kategori_id=? AND status=1
-        ORDER BY tanggal DESC
-        LIMIT 5");
-      $stmt->bind_param('i', $cat['id']);
-      $stmt->execute();
-      $posts = $stmt->get_result();
-      if(!$posts->num_rows) continue;
-      $cColor = catColor($cat['name'],$colorMap);
-    ?>
-    <section class="news-section" style="--cat-clr:<?= $cColor ?>;">
-      <h2 class="cat-title"><?= htmlspecialchars($cat['name']) ?></h2>
-
-      <?php while($p = $posts->fetch_assoc()):
-        $imgRel = $p['gambar'] ?: 'assets/placeholder.jpg';
-        $imgSrc = '/portal/' . ltrim($imgRel, '/');
-      ?>
-      <article class="news-card">
-        <a href="artikel.php?slug=<?= urlencode($p['slug']) ?>">
-          <img src="<?= htmlspecialchars($imgSrc) ?>" alt="<?= htmlspecialchars($p['judul']) ?>">
-          <div class="news-info">
-            <h3><?= htmlspecialchars($p['judul']) ?></h3>
-            <time datetime="<?= $p['tanggal'] ?>"><?= date('d M Y', strtotime($p['tanggal'])) ?></time>
-          </div>
-        </a>
-      </article>
-      <?php endwhile; ?>
-    </section>
-    <?php endforeach; ?>
+<div class="page-wrapper">
+  <!-- YouTube Embed -->
+  <div class="youtube-embed">
+    <h3 style="font-size:22px; margin-bottom:12px; color:#d00000;">Jaguar Channel</h3>
+    <iframe src="https://www.youtube.com/embed/@teamgampemburusejarahmelay3314" allowfullscreen></iframe>
   </div>
 
-  <!-- Sidebar KANAN: Populer -->
-  <aside class="sidebar">
-    <h3>Berita Populer</h3>
-    <ul class="popular-list">
-      <?php foreach($populer as $pop): ?>
-        <li><a href="artikel.php?slug=<?= urlencode($pop['slug']) ?>"><?= htmlspecialchars($pop['judul']) ?></a></li>
+  <h1 class="page-title">Berita Terbaru</h1>
+
+  <div class="main-grid">
+    <!-- Sidebar Kiri: Kategori -->
+    <aside class="sidebar">
+      <h3>Kategori Populer</h3>
+      <ul style="padding-left:18px;">
+        <?php foreach($categories as $c): ?>
+          <li><a href="kategori.php?id=<?= $c['id'] ?>" style="color:<?= catColor($c['name'],$colorMap) ?>"><?= htmlspecialchars($c['name']) ?></a></li>
+        <?php endforeach; ?>
+      </ul>
+    </aside>
+
+    <!-- Konten Utama -->
+    <div class="news-content">
+      <?php foreach($categories as $cat):
+        $stmt = $conn->prepare("
+          SELECT judul,slug,gambar,tanggal
+          FROM posts
+          WHERE kategori_id=? AND status=1
+          ORDER BY tanggal DESC
+          LIMIT 5");
+        $stmt->bind_param('i', $cat['id']);
+        $stmt->execute();
+        $posts = $stmt->get_result();
+        if(!$posts->num_rows) continue;
+        $cColor = catColor($cat['name'],$colorMap);
+      ?>
+      <section class="news-section" style="--cat-clr:<?= $cColor ?>;">
+        <h2 class="cat-title"><?= htmlspecialchars($cat['name']) ?></h2>
+        <?php while($p = $posts->fetch_assoc()):
+          $imgRel = $p['gambar'] ?: 'assets/placeholder.jpg';
+          $imgSrc = '/portal/' . ltrim($imgRel, '/');
+        ?>
+        <article class="news-card">
+          <a href="artikel.php?slug=<?= urlencode($p['slug']) ?>">
+            <img src="<?= htmlspecialchars($imgSrc) ?>" alt="<?= htmlspecialchars($p['judul']) ?>">
+          </a>
+          <div class="news-info">
+            <h3><a href="artikel.php?slug=<?= urlencode($p['slug']) ?>"><?= htmlspecialchars($p['judul']) ?></a></h3>
+            <time datetime="<?= $p['tanggal'] ?>"><?= date('d M Y', strtotime($p['tanggal'])) ?></time>
+          </div>
+        </article>
+        <?php endwhile; ?>
+      </section>
       <?php endforeach; ?>
-    </ul>
-  </aside>
+    </div>
+
+    <!-- Sidebar Kanan: Populer -->
+    <aside class="sidebar">
+      <h3>Berita Populer</h3>
+      <ul class="popular-list">
+        <?php foreach($populer as $pop): ?>
+          <li><a href="artikel.php?slug=<?= urlencode($pop['slug']) ?>"><?= htmlspecialchars($pop['judul']) ?></a></li>
+        <?php endforeach; ?>
+      </ul>
+    </aside>
+  </div>
 </div>
 
 <?php require_once __DIR__.'/inc/footer.php'; ?>
