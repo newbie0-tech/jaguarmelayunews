@@ -116,19 +116,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       });
 
       // Inisialisasi CKEditor
-      ClassicEditor
-        .create(document.querySelector('#isi'), {
-          toolbar: [
-            'heading', '|',
-            'bold', 'italic', 'underline', '|',
-            'link', 'bulletedList', 'numberedList', '|',
-            'insertTable', 'mediaEmbed', 'undo', 'redo'
-          ]
-        })
-        .catch(error => {
-          console.error(error);
-        });
+      let editorInstance;
+  ClassicEditor
+    .create(document.querySelector('#isi'), {
+      toolbar: [
+        'heading', '|',
+        'bold', 'italic', 'underline', '|',
+        'link', 'bulletedList', 'numberedList', '|',
+        'insertTable', 'mediaEmbed', 'undo', 'redo'
+      ]
+    })
+    .then(editor => {
+      editorInstance = editor;
+      document.querySelector('form').addEventListener('submit', () => {
+        document.querySelector('#isi').value = editorInstance.getData();
+      });
+    })
+    .catch(error => {
+      console.error(error);
     });
+});
   </script>
 </head>
 <body>
