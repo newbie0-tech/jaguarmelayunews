@@ -1,5 +1,4 @@
 <?php
-
 session_start();
 if (!isset($_SESSION['admin']) || !is_numeric($_SESSION['admin'])) {
   header('Location: login.php'); exit;
@@ -28,7 +27,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $status = ($_POST['status'] ?? '1') === '1' ? 1 : 0;
   $slug   = make_slug($judul);
 
-  // Pastikan slug unik
   $check = $conn->prepare("SELECT COUNT(*) FROM posts WHERE slug=?");
   $check->bind_param('s',$slug);
   $check->execute(); $check->bind_result($cnt); $check->fetch(); $check->close();
@@ -59,8 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   if (!$msg && $judul && $isi && $katID) {
     $stmt = $conn->prepare("INSERT INTO posts (judul,slug,isi,tags,status,gambar,kategori_id,penulis_id) VALUES (?,?,?,?,?,?,?,?)");
-    $penulis = (int)$_SESSION['admin']; // penting! pastikan ini int
-
+    $penulis = (int)$_SESSION['admin'];
     $stmt->bind_param('ssssisii', $judul, $slug, $isi, $tags, $status, $gambar, $katID, $penulis);
 
     try {
@@ -80,62 +77,59 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   }
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
   <meta charset="utf-8">
   <title>Tambah Berita</title>
   <link rel="stylesheet" href="/portal/css/tambah_berita.css">
-  <script src="/portal/vendor/tinymce/tinymce.min.js"></script>
+  <script src="https://cdn.ckeditor.com/ckeditor5/41.0.0/classic/ckeditor.js"></script>
   <script>
-  <script>
-tinymce.init({
-  selector:'#isi',
-  height:520,
-  menubar:'file edit view insert format tools table help',
-  plugins:'preview code lists autolink link image media table autoresize',
-  toolbar:'undo redo | styleselect | bold italic underline | alignleft aligncenter alignright | bullist numlist | link image media table | code preview',
-  branding:false
-});
-
-function slugify(str) {
-  return str.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'');
-}
-
-document.addEventListener('DOMContentLoaded', ()=>{
-  const judul = document.getElementById('judul');
-  const slug  = document.getElementById('slug');
-  const file  = document.getElementById('gambar');
-  const prev  = document.getElementById('prev');
-  const note  = document.getElementById('note');
-  const form  = document.querySelector('form');
-
-  judul.addEventListener('input', ()=> {
-    slug.value = slugify(judul.value);
-  });
-
-  file.addEventListener('change', ()=>{
-    const f = file.files[0];
-    if (!f) return;
-    if (f.size > <?= $MAX_UPLOAD ?>) {
-      alert('Ukuran gambar > 5 MB');
-      file.value = '';
-      prev.style.display='none';
-      note.textContent='';
-      return;
+    function slugify(str) {
+      return str.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'');
     }
-    prev.src = URL.createObjectURL(f);
-    prev.style.display = 'block';
-    note.textContent = Math.round(f.size / 1024) + ' KB';
-  });
 
-  // FIX submit: kirim konten TinyMCE ke textarea
-  form.addEventListener('submit', () => {
-    tinymce.triggerSave();
-  });
-});
-</script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const judul = document.getElementById('judul');
+      const slug  = document.getElementById('slug');
+      const file  = document.getElementById('gambar');
+      const prev  = document.getElementById('prev');
+      const note  = document.getElementById('note');
+
+      judul.addEventListener('input', () => {
+        slug.value = slugify(judul.value);
+      });
+
+      file.addEventListener('change', () => {
+        const f = file.files[0];
+        if (!f) return;
+        if (f.size > <?= $MAX_UPLOAD ?>) {
+          alert('Ukuran gambar > 5 MB');
+          file.value = '';
+          prev.style.display = 'none';
+          note.textContent = '';
+          return;
+        }
+        prev.src = URL.createObjectURL(f);
+        prev.style.display = 'block';
+        note.textContent = Math.round(f.size / 1024) + ' KB';
+      });
+
+      // Inisialisasi CKEditor
+      ClassicEditor
+        .create(document.querySelector('#isi'), {
+          toolbar: [
+            'heading', '|',
+            'bold', 'italic', 'underline', '|',
+            'link', 'bulletedList', 'numberedList', '|',
+            'insertTable', 'mediaEmbed', 'undo', 'redo'
+          ]
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    });
+  </script>
 </head>
 <body>
 <div class="form-wrapper">
