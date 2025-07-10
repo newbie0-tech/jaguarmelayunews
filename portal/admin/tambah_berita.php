@@ -1,7 +1,7 @@
+<?php
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
-<?php
 session_start();
 if (!isset($_SESSION['admin']) || !is_numeric($_SESSION['admin'])) {
   header('Location: login.php'); exit;
