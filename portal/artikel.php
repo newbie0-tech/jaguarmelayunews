@@ -57,7 +57,6 @@ $description = mb_substr(strip_tags($artikel['isi']), 0, 150) . '…';
 <meta name="twitter:title" content="<?= htmlspecialchars($artikel['judul']) ?>">
 <meta name="twitter:description" content="<?= htmlspecialchars($description) ?>">
 <meta name="twitter:image" content="<?= $imgAbs ?>">
-
 <link rel="stylesheet" href="/portal/css/style.css">
 <style>
 #readingProgressBar {
