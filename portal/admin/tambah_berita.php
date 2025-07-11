@@ -5,6 +5,7 @@ if (!isset($_SESSION['admin']) || !is_numeric($_SESSION['admin'])) {
 }
 
 require_once __DIR__ . '/../inc/db.php';
+require_once __DIR__ . '/../inc/header.php';
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
 $msg = '';
