@@ -23,11 +23,7 @@ $cats = $conn->query("SELECT id,name FROM categories ORDER BY name")->fetch_all(
 function make_slug($str) {
   return trim(strtolower(preg_replace('/[^a-z0-9]+/i','-', $str)), '-');
 }
-echo "<pre>";
-var_dump($_POST);
-var_dump($_FILES);
-echo "</pre>";
-exit;
+
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $judul  = trim($_POST['judul'] ?? '');
