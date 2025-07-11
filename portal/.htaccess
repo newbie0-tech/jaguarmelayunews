@@ -1,10 +1,17 @@
-# Aktifkan RewriteEngine
+# Aktifkan mod_rewrite
 RewriteEngine On
-# Redirect semua request dari /portal/* ke root /
+
+# Jangan rewrite untuk file/folder nyata (seperti /uploads/ atau file .jpg)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Alihkan hanya /portal/... ke /
 RewriteRule ^portal/(.*)$ /$1 [L]
-# Pastikan file index default adalah index.php
+
+# Set default file
 DirectoryIndex index.php
-# Izinkan semua akses (opsional jika belum diatur di Apache conf)
-<RequireAll>
+
+# Beri akses semua (jangan pakai <RequireAll>)
+<IfModule mod_authz_core.c>
   Require all granted
-</RequireAll>
+</IfModule>
