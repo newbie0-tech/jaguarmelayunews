@@ -13,9 +13,12 @@ $katID = 0;
 $status = 1;
 $slug = '';
 $MAX_UPLOAD = 5 * 1024 * 1024;
-$uploadDir = realpath(__DIR__ . '/portal/uploads');
+$uploadDir = __DIR__ . '/../uploads'; 
 
-if (!is_dir($uploadDir)) 
+if (!is_dir($uploadDir)) {
+  mkdir($uploadDir, 0755, true);
+}
+
   
 
 $cats = $conn->query("SELECT id,name FROM categories ORDER BY name")->fetch_all(MYSQLI_ASSOC);
