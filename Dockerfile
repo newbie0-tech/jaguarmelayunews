@@ -16,11 +16,6 @@ COPY . /var/www/html/
 # Siapkan folder volume Railway di dalam container
 ENV UPLOAD_DIR=/data/uploads
 
-# Buat folder uploads dan beri izin akses
-RUN mkdir -p ${UPLOAD_DIR} \
- && chown -R www-data:www-data /data/uploads \
- && chmod -R 755 /data/uploads
-
 # Symlink agar URL /portal/uploads bisa digunakan
 RUN ln -sfn /data/uploads /var/www/html/portal/uploads
 
