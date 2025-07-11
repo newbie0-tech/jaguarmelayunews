@@ -12,7 +12,7 @@ COPY . /var/www/html/
 ENV UPLOAD_DIR=/data/uploads
 RUN mkdir -p /var/www/html/portal/data \
  && chown -R www-data:www-data /var/www/html/portal/data \
- && chmod -R 755 /var/www/html/portal/data
+ && chmod -R 777 /var/www/html/portal/data
 
 RUN ln -sfn /data/uploads /var/www/html/portal/uploads
 
