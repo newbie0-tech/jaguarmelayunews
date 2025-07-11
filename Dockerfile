@@ -11,10 +11,13 @@ COPY . /var/www/html/
 
 ENV UPLOAD_DIR=/data/uploads
 
-RUN mkdir -p ${UPLOAD_DIR} \
- && chown -R www-data:www-data ${UPLOAD_DIR} \
- && chmod -R 777 ${UPLOAD_DIR} \
- && ln -sfn ${UPLOAD_DIR} /var/www/html/portal/uploads
+RUN bash -c "cat > /etc/apache2/conf-available/allowoverride.conf <<EOF
+<Directory /var/www/html/portal>
+    AllowOverride All
+    Require all granted
+</Directory>
+EOF"
+
 
 RUN cat > /etc/apache2/conf-available/allowoverride.conf << 'EOF'
 <Directory /var/www/html/portal>
