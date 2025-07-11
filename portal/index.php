@@ -112,7 +112,8 @@ h1.page-title {
   }
 }
 </style>
-
+<!-- index.php -->
+<link rel="stylesheet" href="css/style.css">
 <div class="page-wrapper">
   <!-- YouTube Embed -->
   <div class="youtube-embed">
