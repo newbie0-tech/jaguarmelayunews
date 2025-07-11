@@ -16,7 +16,7 @@ $MAX_UPLOAD = 5 * 1024 * 1024;
 $uploadDir = realpath(__DIR__ . '/portal/uploads');
 
 if (!is_dir($uploadDir)) 
-  }
+  
 
 $cats = $conn->query("SELECT id,name FROM categories ORDER BY name")->fetch_all(MYSQLI_ASSOC);
 
