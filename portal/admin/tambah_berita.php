@@ -75,39 +75,60 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 require_once __DIR__ . '/../inc/header.php';
 ?>
 
-<h2>Tambah Berita</h2>
-<?php if ($msg): ?><div class="alert"><?= htmlspecialchars($msg) ?></div><?php endif; ?>
-<form method="post" enctype="multipart/form-data">
-  <label>Judul</label>
-  <input name="judul" value="<?= htmlspecialchars($judul) ?>" required>
-  
-  <label>Slug</label>
-  <input name="slug" value="<?= htmlspecialchars($slug) ?>" readonly>
+<div class="form-container">
+  <h2>Tambah Berita</h2>
 
-  <label>Kategori</label>
-  <select name="kategori" required>
-    <option value="">--Pilih--</option>
-    <?php foreach ($cats as $c): ?>
-      <option value="<?= $c['id'] ?>" <?= $katID == $c['id'] ? 'selected' : '' ?>><?= htmlspecialchars($c['name']) ?></option>
-    <?php endforeach; ?>
-  </select>
+  <?php if (!empty($sukses)) echo "<div class='alert sukses'>$sukses</div>"; ?>
+  <?php if (!empty($error)) echo "<div class='alert error'>$error</div>"; ?>
 
-  <label>Isi Berita</label>
-  <textarea name="isi" rows="10" required><?= htmlspecialchars($isi) ?></textarea>
+  <form method="post" enctype="multipart/form-data">
+    <div class="form-group">
+      <label>Judul Berita</label>
+      <input type="text" name="judul" required>
+    </div>
 
-  <label>Upload Gambar</label>
-  <input type="file" name="gambar" accept="image/*">
+    <div class="form-group">
+      <label>Slug</label>
+      <input type="text" name="slug" required>
+    </div>
 
-  <label>Tags</label>
-  <input name="tags" value="<?= htmlspecialchars($tags) ?>">
+    <div class="form-group">
+      <label>Kategori</label>
+      <select name="kategori_id">
+        <!-- Opsional: generate dari DB -->
+        <option value="1">Nasional</option>
+        <option value="2">Daerah</option>
+        <option value="3">Politik</option>
+        <option value="4">Pendidikan</option>
+        <option value="5">Dunia</option>
+      </select>
+    </div>
 
-  <label>Status</label>
-  <select name="status">
-    <option value="1" <?= $status == 1 ? 'selected' : '' ?>>Publish</option>
-    <option value="0" <?= $status == 0 ? 'selected' : '' ?>>Draft</option>
-  </select>
+    <div class="form-group">
+      <label>Isi Berita</label>
+      <textarea name="isi" rows="7" required></textarea>
+    </div>
 
-  <button type="submit">Simpan</button>
-</form>
+    <div class="form-group">
+      <label>Upload Gambar</label>
+      <input type="file" name="gambar">
+    </div>
+
+    <div class="form-group">
+      <label>Tags</label>
+      <input type="text" name="tags">
+    </div>
+
+    <div class="form-group">
+      <label>Status</label>
+      <select name="status">
+        <option value="Publish">Publish</option>
+        <option value="Draft">Draft</option>
+      </select>
+    </div>
+
+    <button type="submit" class="btn-submit">Simpan Berita</button>
+  </form>
+</div>
 
 <?php require_once __DIR__ . '/../inc/footer.php'; ?>
