@@ -59,7 +59,7 @@ footer.site-footer {
       <div class="social-icons">
         <a href="https://facebook.com" target="_blank"><img src="/portal/assets/fb.png" alt="Facebook"></a>
         <a href="https://tiktok.com" target="_blank"><img src="/portal/assets/tk.png" alt="TikTok"></a>
-        <a href="https://instagram.com" target="_blank"><img src="/portal/assets/ig.png" alt="Instagram"></a>
+        <a href="https://x.com" target="_blank"><img src="/portal/assets/x.png" alt="X"></a>
       </div>
       <div class="flags" id="flags"></div>
     </div>
