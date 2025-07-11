@@ -11,10 +11,10 @@ COPY . /var/www/html/
 
 ENV UPLOAD_DIR=/data/uploads
 RUN mkdir -p ${UPLOAD_DIR} \
- && chown -R www-data:www-data ${UPLOAD_DIR} \
- && chmod -R 755 ${UPLOAD_DIR}
+ && chown -R www-data:www-data /data/uploads \
+ && chmod -R 755 /data/uploads
 
-RUN ln -sfn ${UPLOAD_DIR} /var/www/html/portal/uploads
+RUN ln -sfn /data/uploads /var/www/html/portal/uploads
 
 # ⬇ Fix: Tulis <Directory> menggunakan echo baris per baris
 RUN echo '<Directory /var/www/html/portal>' > /etc/apache2/conf-available/allowoverride.conf && \
