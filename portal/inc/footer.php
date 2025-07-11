@@ -3,19 +3,7 @@
 ?>
 <?
 
-/* ===== Hitung visitor sederhana ===== */
-$statsDir = '/data';                  // volume Railway
-if (!is_dir($statsDir)) mkdir($statsDir, 0755, true);
 
-$file = $statsDir.'/visitors.txt';
-
-$visits = 0;
-if (is_readable($file)) {
-    $visits = (int) file_get_contents($file);
-}
-$visits++;
-file_put_contents($file, $visits, LOCK_EX);
-?>
 <style>
     footer.site-footer{
         background:linear-gradient(90deg,#000 0%, #0d6efd 100%);
