@@ -19,10 +19,4 @@ RUN bash -c "cat > /etc/apache2/conf-available/allowoverride.conf <<EOF
 EOF"
 
 
-RUN cat > /etc/apache2/conf-available/allowoverride.conf << 'EOF'
-<Directory /var/www/html/portal>
-    AllowOverride All
-    Require all granted
-</Directory>
-EOF
 RUN a2enconf allowoverride
