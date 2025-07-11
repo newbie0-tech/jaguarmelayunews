@@ -4,7 +4,6 @@ if (!isset($_SESSION['admin'])) { header('Location: login.php'); exit; }
 
 require_once __DIR__ . '/../inc/db.php';
 require_once __DIR__ . '/../inc/header.php';
-
 $msg = '';
 $judul = $isi = $tags = '';
 $katID = 0;
@@ -15,12 +14,7 @@ $MAX_UPLOAD = 5 * 1024 * 1024;
 
 if (!is_dir($uploadDir)) mkdir($uploadDir, 0777, true);
 
-// Ambil list kategori
 $cats = $conn->query("SELECT id, name FROM categories ORDER BY name")->fetch_all(MYSQLI_ASSOC);
-$kategoriList = [];
-foreach ($cats as $cat) {
-    $kategoriList[$cat[0]] = $cat[1];
-}
 
 function make_slug($str) {
   return trim(strtolower(preg_replace('/[^a-z0-9]+/i','-', $str)), '-');
@@ -29,7 +23,7 @@ function make_slug($str) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $judul  = trim($_POST['judul'] ?? '');
   $isi    = trim($_POST['isi'] ?? '');
-  $katID  = (int)($_POST['kategori_id'] ?? 0);
+  $katID  = (int)($_POST['kategori'] ?? 0);
   $tags   = trim($_POST['tags'] ?? '');
   $status = ($_POST['status'] ?? '1') === '1' ? 1 : 0;
   $slug   = make_slug($judul);
@@ -79,7 +73,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   }
 }
 ?>
-
 <div class="container-form">
     <h2>Tambah Berita</h2>
 
@@ -87,36 +80,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <form action="" method="POST" enctype="multipart/form-data" class="news-form">
         <label for="judul">Judul Berita</label>
-        <input type="text" id="judul" name="judul" value="<?= htmlspecialchars($judul) ?>" required>
+        <input type="text" id="judul" name="judul" required>
 
         <label for="slug">Slug</label>
-        <input type="text" id="slug" name="slug" value="<?= htmlspecialchars($slug) ?>">
+        <input type="text" id="slug" name="slug">
 
         <label for="kategori">Kategori</label>
-        <select id="kategori" name="kategori_id" required>
-            <option value="">-- Pilih Kategori --</option>
+        <select id="kategori" name="kategori_id">
+            <!-- Loop kategori -->
             <?php foreach ($kategoriList as $id => $nama): ?>
-                <option value="<?= $id ?>" <?= $katID == $id ? 'selected' : '' ?>><?= htmlspecialchars($nama) ?></option>
+                <option value="<?= $id ?>"><?= htmlspecialchars($nama) ?></option>
             <?php endforeach; ?>
         </select>
 
         <label for="isi">Isi Berita</label>
-        <textarea id="isi" name="isi" rows="6" required><?= htmlspecialchars($isi) ?></textarea>
+        <textarea id="isi" name="isi" rows="6" required></textarea>
 
         <label for="gambar">Upload Gambar</label>
         <input type="file" id="gambar" name="gambar">
 
         <label for="tags">Tags</label>
-        <input type="text" id="tags" name="tags" value="<?= htmlspecialchars($tags) ?>" placeholder="mis: olahraga, nasional, ekonomi">
+        <input type="text" id="tags" name="tags" placeholder="mis: olahraga, nasional, ekonomi">
 
         <label for="status">Status</label>
         <select id="status" name="status">
-            <option value="1" <?= $status === 1 ? 'selected' : '' ?>>Publish</option>
-            <option value="0" <?= $status === 0 ? 'selected' : '' ?>>Draft</option>
+            <option value="publish">Publish</option>
+            <option value="draft">Draft</option>
         </select>
 
         <button type="submit" class="btn-submit">Simpan Berita</button>
     </form>
 </div>
-
 <?php require_once __DIR__.'/../inc/footer.php'; ?>
+
