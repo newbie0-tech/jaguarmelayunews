@@ -73,7 +73,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   }
 }
 
-php require_once __DIR__.'/../inc/header.php'; 
 <div class="container-form">
     <h2>Tambah Berita</h2>
 
