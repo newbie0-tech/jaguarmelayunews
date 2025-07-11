@@ -1,3 +1,15 @@
+* { box-sizing: border-box; }
+body {
+  font-family: Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: #f8f9fa;
+  color: #212529;
+}
+img { max-width: 100%; height: auto; }
+a  { color: #0057b8; text-decoration: none; }
+a:hover { text-decoration: underline; }
+
 .container-form {
     max-width: 700px;
     margin: 20px auto;
