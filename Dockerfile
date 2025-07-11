@@ -10,9 +10,9 @@ RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' \
 COPY . /var/www/html/
 
 ENV UPLOAD_DIR=/data/uploads
-RUN mkdir -p ${UPLOAD_DIR} \
- && chown -R www-data:www-data /data/uploads \
- && chmod -R 755 /data/uploads
+RUN mkdir -p /var/www/html/portal/data \
+ && chown -R www-data:www-data /var/www/html/portal/data \
+ && chmod -R 755 /var/www/html/portal/data
 
 RUN ln -sfn /data/uploads /var/www/html/portal/uploads
 
