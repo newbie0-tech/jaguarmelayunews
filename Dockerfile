@@ -13,7 +13,7 @@ ENV UPLOAD_DIR=/data/uploads
 
 RUN mkdir -p ${UPLOAD_DIR} \
  && chown -R www-data:www-data ${UPLOAD_DIR} \
- && chmod -R 755 ${UPLOAD_DIR} \
+ && chmod -R 777 ${UPLOAD_DIR} \
  && ln -sfn ${UPLOAD_DIR} /var/www/html/portal/uploads
 
 RUN cat > /etc/apache2/conf-available/allowoverride.conf << 'EOF'
