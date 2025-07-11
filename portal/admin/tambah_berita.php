@@ -73,6 +73,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   }
 }
 ?>
+  <head>
+  <script src="https://cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>
 <div class="container-form">
     <h2>Tambah Berita</h2>
 
@@ -94,7 +96,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </select>
 
         <label for="isi">Isi Berita</label>
-        <textarea id="isi" name="isi" rows="6" required></textarea>
+        <textarea id="isi" name="isi" rows="6" required><?= htmlspecialchars($isi ?? '') ?></textarea>
+<script>CKEDITOR.replace('isi');</script>
 
         <label for="gambar">Upload Gambar</label>
         <input type="file" id="gambar" name="gambar">
@@ -111,5 +114,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <button type="submit" class="btn-submit">Simpan Berita</button>
     </form>
 </div>
+  </head>
 <?php require_once __DIR__.'/../inc/footer.php'; ?>
 
