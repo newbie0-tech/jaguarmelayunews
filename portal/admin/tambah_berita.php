@@ -63,7 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
   }
 
-  if (!$gambar) $gambar = 'assets/placeholder.jpg';
+  if (!$gambar) $gambar = 'assets/placeholder.gif';
 
   if (!$msg && $judul && $isi && $katID) {
     $stmt = $conn->prepare("INSERT INTO posts (judul, slug, isi, tags, status, gambar, kategori_id, penulis_id)
