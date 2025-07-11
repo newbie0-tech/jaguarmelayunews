@@ -19,12 +19,4 @@ ENV UPLOAD_DIR=/data/uploads
 # Symlink agar URL /portal/uploads bisa digunakan
 RUN ln -sfn /data/uploads /var/www/html/portal/uploads
 
-# Aktifkan .htaccess
-RUN bash -c "cat > /etc/apache2/conf-available/allowoverride.conf <<EOF
-<Directory /var/www/html/portal>
-    AllowOverride All
-    Require all granted
-</Directory>
-EOF"
-
 RUN a2enconf allowoverride
