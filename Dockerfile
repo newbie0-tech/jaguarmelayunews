@@ -19,4 +19,3 @@ ENV UPLOAD_DIR=/data/uploads
 # Symlink agar URL /portal/uploads bisa digunakan
 RUN ln -sfn /data/uploads /var/www/html/portal/uploads
 
-RUN a2enconf allowoverride
