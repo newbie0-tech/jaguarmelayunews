@@ -1,6 +1,7 @@
 FROM php:8.2-apache
 
-RUN docker-php-ext-install mysqli pdo pdo_mysql && a2enmod rewrite
+RUN docker-php-ext-install mysqli && docker-php-enable mysqli
+RUN a2enmod rewrite
 
 ENV APACHE_DOCUMENT_ROOT=/var/www/html/portal
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' \
@@ -10,10 +11,10 @@ RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' \
 COPY . /var/www/html/
 
 ENV UPLOAD_DIR=/data/uploads
-docker exec -it <nama_container> bash
-chown -R www-data:www-data /var/www/html/portal/uploads
-chmod -R 755 /var/www/html/portal/uploads
-
+RUN mkdir -p /var/www/html/portal/uploads && chmod -R 777 /var/www/html/portal/uploads
+WORKDIR /var/www/html
+RUN chown -R www-data:www.data /var/www/html
+EXSPOSE 80
 RUN ln -sfn /data/uploads /var/www/html/portal/uploads
 
 # ⬇ Fix: Tulis <Directory> menggunakan echo baris per baris
