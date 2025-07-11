@@ -72,63 +72,45 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $msg = '❌ Semua field wajib diisi.';
   }
 }
-require_once __DIR__ . '/../inc/header.php';
-?>
 
-<div class="form-container">
-  <h2>Tambah Berita</h2>
+<?php require_once __DIR__.'/../inc/header.php'; ?>
+<div class="container-form">
+    <h2>Tambah Berita</h2>
 
-  <?php if (!empty($sukses)) echo "<div class='alert sukses'>$sukses</div>"; ?>
-  <?php if (!empty($error)) echo "<div class='alert error'>$error</div>"; ?>
+    <?php if (!empty($msg)) echo "<div class='form-msg'>$msg</div>"; ?>
 
-  <form method="post" enctype="multipart/form-data">
-    <div class="form-group">
-      <label>Judul Berita</label>
-      <input type="text" name="judul" required>
-    </div>
+    <form action="" method="POST" enctype="multipart/form-data" class="news-form">
+        <label for="judul">Judul Berita</label>
+        <input type="text" id="judul" name="judul" required>
 
-    <div class="form-group">
-      <label>Slug</label>
-      <input type="text" name="slug" required>
-    </div>
+        <label for="slug">Slug</label>
+        <input type="text" id="slug" name="slug">
 
-    <div class="form-group">
-      <label>Kategori</label>
-      <select name="kategori_id">
-        <!-- Opsional: generate dari DB -->
-        <option value="1">Nasional</option>
-        <option value="2">Daerah</option>
-        <option value="3">Politik</option>
-        <option value="4">Pendidikan</option>
-        <option value="5">Dunia</option>
-      </select>
-    </div>
+        <label for="kategori">Kategori</label>
+        <select id="kategori" name="kategori_id">
+            <!-- Loop kategori -->
+            <?php foreach ($kategoriList as $id => $nama): ?>
+                <option value="<?= $id ?>"><?= htmlspecialchars($nama) ?></option>
+            <?php endforeach; ?>
+        </select>
 
-    <div class="form-group">
-      <label>Isi Berita</label>
-      <textarea name="isi" rows="7" required></textarea>
-    </div>
+        <label for="isi">Isi Berita</label>
+        <textarea id="isi" name="isi" rows="6" required></textarea>
 
-    <div class="form-group">
-      <label>Upload Gambar</label>
-      <input type="file" name="gambar">
-    </div>
+        <label for="gambar">Upload Gambar</label>
+        <input type="file" id="gambar" name="gambar">
 
-    <div class="form-group">
-      <label>Tags</label>
-      <input type="text" name="tags">
-    </div>
+        <label for="tags">Tags</label>
+        <input type="text" id="tags" name="tags" placeholder="mis: olahraga, nasional, ekonomi">
 
-    <div class="form-group">
-      <label>Status</label>
-      <select name="status">
-        <option value="Publish">Publish</option>
-        <option value="Draft">Draft</option>
-      </select>
-    </div>
+        <label for="status">Status</label>
+        <select id="status" name="status">
+            <option value="publish">Publish</option>
+            <option value="draft">Draft</option>
+        </select>
 
-    <button type="submit" class="btn-submit">Simpan Berita</button>
-  </form>
+        <button type="submit" class="btn-submit">Simpan Berita</button>
+    </form>
 </div>
+<?php require_once __DIR__.'/../inc/footer.php'; ?>
 
-<?php require_once __DIR__ . '/../inc/footer.php'; ?>
