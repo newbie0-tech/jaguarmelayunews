@@ -66,8 +66,7 @@ file_put_contents($file, $visits, LOCK_EX);
   </div>
   <div class="copyright">
   © <?= date('Y') ?> Jaguar Melayu News – All rights reserved.<br>
-  <span style="font-size:13px;color:#ddd;">
-    <footer> Pengunjung: <?= $visits ?> </footer>
+  
   </span>
 </div>
 
