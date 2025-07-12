@@ -95,45 +95,37 @@ $sliderPosts = $conn->query("SELECT slug, gambar, judul FROM posts WHERE status=
 ?>
   <div class="main-grid">
   <!-- Kolom 1: YouTube -->
-  <aside class="sidebar">
+  <aside class="sidebar youtube-box">
     <h3>Jaguar Channel</h3>
-    <iframe class="youtube-mini"
-      src="https://www.youtube.com/embed/pG0RgDw55kI"
-      title="YouTube video player"
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-      allowfullscreen>
-    </iframe>
+    <div class="youtube-wrapper">
+      <iframe src="https://www.youtube.com/embed/pG0RgDw55kI"
+        title="Jaguar Channel"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen>
+      </iframe>
+    </div>
   </aside>
 
-  <!-- Kolom 2: Slider Berita -->
+  <!-- Kolom 2: Berita Terbaru -->
   <div class="news-content">
-    <h3>Slider Berita Terbaru</h3>
-    <div class="slider" id="slider">
-      <div class="slider-track">
-        <?php foreach($sliderPosts as $p): 
-          $imgRel = $p['gambar'] ?: 'assets/placeholder.jpg';
-          $imgSrc = '/portal/' . ltrim($imgRel, '/');
-        ?>
-          <a href="artikel.php?slug=<?= urlencode($p['slug']) ?>">
-            <img src="<?= htmlspecialchars($imgSrc) ?>" alt="<?= htmlspecialchars($p['judul']) ?>">
-          </a>
-        <?php endforeach; ?>
-      </div>
-      <div class="slider-controls">
-        <button onclick="prevSlide()">❮</button>
-        <button onclick="nextSlide()">❯</button>
-      </div>
-    </div>
+    <h1 class="page-title">Berita Terbaru</h1>
+    <!-- berita looping seperti biasa -->
+    ...
   </div>
 
-  <!-- Kolom 3: Iklan -->
+  <!-- Kolom 3: Iklan dan Populer -->
   <aside class="sidebar">
-    <h3>Slot Iklan</h3>
-    <div class="iklan-box">Pasang Iklan Di Sini</div>
+    <h3>Iklan</h3>
+    <img src="/portal/assets/banner-iklan.png" alt="Iklan" style="width:100%; border-radius:8px; margin-bottom:20px;">
+    
+    <h3>Berita Populer</h3>
+    <ul class="popular-list">
+      <?php foreach($populer as $pop): ?>
+        <li><a href="artikel.php?slug=<?= urlencode($pop['slug']) ?>"><?= htmlspecialchars($pop['judul']) ?></a></li>
+      <?php endforeach; ?>
+    </ul>
   </aside>
 </div>
-
-
     <!-- Konten Utama -->
     <div class="news-content">
       <?php foreach($categories as $cat):
