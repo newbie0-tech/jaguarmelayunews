@@ -20,103 +20,49 @@ $populer = $conn->query("SELECT judul,slug FROM posts WHERE status=1 ORDER BY vi
 ?>
 
 <link rel="stylesheet" href="/portal/css/index.css">
-<style>/* grid responsif kategori */
-.news-sections{
-  display:grid;
-  gap:32px;
-  padding:0 32px 60px;
-  grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
-}
-.youtube-mini {
-  width: 100%;
-  aspect-ratio: 16/9;
-  border-radius: 6px;
-  border: none;
-}
-.slider {
-  position: relative;
-  overflow: hidden;
-  height: 250px;
-}
-.slider-track {
-  display: flex;
-  transition: transform 0.5s ease;
-}
-.slider img {
-  width: 100%;
-  height: 250px;
-  object-fit: cover;
-  border-radius: 8px;
-}
-.slider-controls {
-  position: absolute;
-  top: 40%;
-  left: 0;
-  right: 0;
-  display: flex;
-  justify-content: space-between;
-  padding: 0 10px;
-}
-.slider-controls button {
-  background: rgba(0,0,0,0.5);
-  color: white;
-  border: none;
-  font-size: 20px;
-  cursor: pointer;
-}
-.iklan-box {
-  height: 250px;
-  background: #f3f3f3;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px dashed #aaa;
-  border-radius: 8px;
-  font-weight: bold;
-}
-</style>
-
-<!-- index.php -->
-<link rel="stylesheet" href="css/style.css">
-<div class="page-wrapper">
-  <!-- YouTube Embed -->
-  <div class="youtube-embed">
-    <h3 style="font-size:22px; margin-bottom:12px; color:#d00000;">Jaguar Channel</h3>
-    <iframe width="100%" height="400"
-  src="https://www.youtube.com/embed/pG0RgDw55kI"
-  title="YouTube video player" frameborder="0"
-  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-  allowfullscreen>
-</iframe>
-  </div>
   <h1 class="page-title">Berita Terbaru</h1>
 <?php
 $sliderPosts = $conn->query("SELECT slug, gambar, judul FROM posts WHERE status=1 ORDER BY tanggal DESC LIMIT 5")->fetch_all(MYSQLI_ASSOC);
 ?>
-  <div class="main-grid">
+  <div class="main-grid-3">
   <!-- Kolom 1: YouTube -->
-  <aside class="sidebar youtube-box">
+  <aside class="youtube-box">
     <h3>Jaguar Channel</h3>
     <div class="youtube-wrapper">
-      <iframe src="https://www.youtube.com/embed/pG0RgDw55kI"
-        title="Jaguar Channel"
+      <iframe src="https://www.youtube.com/embed/pG0RgDw55kI" title="Jaguar Channel"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-        allowfullscreen>
-      </iframe>
+        allowfullscreen></iframe>
     </div>
   </aside>
 
-  <!-- Kolom 2: Berita Terbaru -->
-  <div class="news-content">
-    <h1 class="page-title">Berita Terbaru</h1>
-    <!-- berita looping seperti biasa -->
-    ...
+  <!-- Kolom 2: Slider -->
+  <div class="slider">
+    <div class="slider-track">
+      <?php foreach ($sliderPosts as $s): ?>
+        <a href="artikel.php?slug=<?= urlencode($s['slug']) ?>">
+          <img src="/portal/<?= htmlspecialchars($s['gambar']) ?>" alt="<?= htmlspecialchars($s['judul']) ?>">
+        </a>
+      <?php endforeach; ?>
+    </div>
+    <div class="slider-controls">
+      <button onclick="prevSlide()">❮</button>
+      <button onclick="nextSlide()">❯</button>
+    </div>
   </div>
 
-  <!-- Kolom 3: Iklan dan Populer -->
+  <!-- Kolom 3: Iklan -->
   <aside class="sidebar">
     <h3>Iklan</h3>
-    <img src="/portal/assets/banner-iklan.png" alt="Iklan" style="width:100%; border-radius:8px; margin-bottom:20px;">
+    <div class="iklan-box">Slot Iklan</div>
+    <h3 style="margin-top:20px;">Berita Populer</h3>
+    <ul class="popular-list">
+      <?php foreach($populer as $pop): ?>
+        <li><a href="artikel.php?slug=<?= urlencode($pop['slug']) ?>"><?= htmlspecialchars($pop['judul']) ?></a></li>
+      <?php endforeach; ?>
+    </ul>
+  </aside>
+</div>
+
     
     <h3>Berita Populer</h3>
     <ul class="popular-list">
