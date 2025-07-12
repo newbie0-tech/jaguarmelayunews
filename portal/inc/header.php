@@ -15,17 +15,24 @@
         <button type="submit">🔍</button>
       </form>
       <div class="social-icons">
-        <a href="#"><img src="/portal/assets/icons/fb.ico" alt="Facebook"></a>
-        <a href="#"><img src="/portal/assets/icons/x.png" alt="Twitter/X"></a>
-        <a href="#"><img src="/portal/assets/icons/yt.png" alt="YouTube"></a>
+        <a href="https://www.facebook.com"><img src="/portal/assets/icons/fb.ico" alt="Facebook"></a>
+        <a href="https://www.x.com"><img src="/portal/assets/icons/x.png" alt="Twitter/X"></a>
+        <a href="hhttps://www.youtube.com"><img src="/portal/assets/icons/yt.png" alt="YouTube"></a>
       </div>
     </div>
   </div>
 
-  <div class="breaking-marquee">
-    <span class="breaking-flash">🚨 Breaking News</span>
-    <marquee scrollamount="6">Polda Riau gelar Bhayangkara Run 2025 • Gunung Lewotobi Meletus 7 Juli 2025 • LAMR Riau Jangan Terima Bersih</marquee>
-  </div>
+ <div class="breaking-marquee">
+  <span class="breaking-flash">🚨 Breaking News</span>
+  <marquee scrollamount="6">
+    <?php
+    $result = $conn->query("SELECT slug, judul FROM posts WHERE status=1 ORDER BY id DESC LIMIT 5");
+    while ($row = $result->fetch_assoc()) {
+      echo '<a href="/artikel.php?slug='.htmlspecialchars($row['slug']).'">'.htmlspecialchars($row['judul']).'</a> • ';
+    }
+    ?>
+  </marquee>
+</div>
 
   <nav class="main-nav">
     <a href="/portal/">Beranda</a>
