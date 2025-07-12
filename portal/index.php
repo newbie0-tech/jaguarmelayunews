@@ -17,76 +17,69 @@ $colorMap = [
 function catColor($n,$m){ return $m[$n] ?? '#0d6efd'; }
 
 $populer = $conn->query("SELECT judul,slug FROM posts WHERE status=1 ORDER BY views DESC LIMIT 5")?->fetch_all(MYSQLI_ASSOC) ?? [];
-?>
-
-<link rel="stylesheet" href="/portal/css/index.css">
-  <h1 class="page-title">Berita Terbaru</h1>
-<?php
 $sliderPosts = $conn->query("SELECT slug, gambar, judul FROM posts WHERE status=1 ORDER BY tanggal DESC LIMIT 5")->fetch_all(MYSQLI_ASSOC);
 ?>
-  <div class="main-grid-3">
-  <!-- Kolom 1: YouTube -->
-  <aside class="youtube-box">
-    <h3>Jaguar Channel</h3>
-    <div class="youtube-wrapper">
-      <iframe src="https://www.youtube.com/embed/pG0RgDw55kI" title="Jaguar Channel"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-        allowfullscreen></iframe>
-    </div>
-  </aside>
 
-  <!-- Kolom 2: Slider -->
-  <div class="slider">
-    <div class="slider-track">
-      <?php foreach ($sliderPosts as $s): ?>
-        <a href="artikel.php?slug=<?= urlencode($s['slug']) ?>">
-          <img src="/portal/<?= htmlspecialchars($s['gambar']) ?>" alt="<?= htmlspecialchars($s['judul']) ?>">
-        </a>
-      <?php endforeach; ?>
+<link rel="stylesheet" href="/portal/css/style.css">
+<div class="page-wrapper">
+  <h1 class="page-title">Berita Terbaru</h1>
+
+  <div class="main-grid-3">
+    <!-- Kolom 1: YouTube -->
+    <aside class="sidebar youtube-box">
+      <h3>Jaguar Channel</h3>
+      <div class="youtube-wrapper">
+        <iframe src="https://www.youtube.com/embed/pG0RgDw55kI"
+          title="Jaguar Channel"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen></iframe>
+      </div>
+    </aside>
+
+    <!-- Kolom 2: Slider Berita -->
+    <div class="slider-box">
+      <h3 class="section-title">Headline Terbaru</h3>
+      <div class="slider">
+        <div class="slider-track">
+          <?php foreach($sliderPosts as $s): 
+            $src = '/portal/' . ltrim($s['gambar'] ?: 'assets/placeholder.jpg', '/');
+          ?>
+            <a href="artikel.php?slug=<?= urlencode($s['slug']) ?>">
+              <img src="<?= htmlspecialchars($src) ?>" alt="<?= htmlspecialchars($s['judul']) ?>">
+            </a>
+          <?php endforeach; ?>
+        </div>
+        <div class="slider-controls">
+          <button onclick="prevSlide()">&#10094;</button>
+          <button onclick="nextSlide()">&#10095;</button>
+        </div>
+      </div>
     </div>
-    <div class="slider-controls">
-      <button onclick="prevSlide()">❮</button>
-      <button onclick="nextSlide()">❯</button>
-    </div>
+
+    <!-- Kolom 3: Iklan + Populer -->
+    <aside class="sidebar iklan-box">
+      <h3>Iklan</h3>
+      <img src="/portal/assets/banner-iklan.png" alt="Iklan" style="width:100%; border-radius:8px; margin-bottom:20px;">
+
+      <h3>Berita Populer</h3>
+      <ul class="popular-list">
+        <?php foreach($populer as $pop): ?>
+          <li><a href="artikel.php?slug=<?= urlencode($pop['slug']) ?>"><?= htmlspecialchars($pop['judul']) ?></a></li>
+        <?php endforeach; ?>
+      </ul>
+    </aside>
   </div>
 
-  <!-- Kolom 3: Iklan -->
-  <aside class="sidebar">
-    <h3>Iklan</h3>
-    <div class="iklan-box">Slot Iklan</div>
-    <h3 style="margin-top:20px;">Berita Populer</h3>
-    <ul class="popular-list">
-      <?php foreach($populer as $pop): ?>
-        <li><a href="artikel.php?slug=<?= urlencode($pop['slug']) ?>"><?= htmlspecialchars($pop['judul']) ?></a></li>
-      <?php endforeach; ?>
-    </ul>
-  </aside>
-</div>
-
-    
-    <h3>Berita Populer</h3>
-    <ul class="popular-list">
-      <?php foreach($populer as $pop): ?>
-        <li><a href="artikel.php?slug=<?= urlencode($pop['slug']) ?>"><?= htmlspecialchars($pop['judul']) ?></a></li>
-      <?php endforeach; ?>
-    </ul>
-  </aside>
-</div>
-    <!-- Konten Utama -->
-    <div class="news-content">
-      <?php foreach($categories as $cat):
-        $stmt = $conn->prepare("
-          SELECT judul,slug,gambar,tanggal
-          FROM posts
-          WHERE kategori_id=? AND status=1
-          ORDER BY tanggal DESC
-          LIMIT 5");
-        $stmt->bind_param('i', $cat['id']);
-        $stmt->execute();
-        $posts = $stmt->get_result();
-        if(!$posts->num_rows) continue;
-        $cColor = catColor($cat['name'],$colorMap);
-      ?>
+  <!-- Konten Utama Kategori -->
+  <div class="news-content">
+    <?php foreach($categories as $cat):
+      $stmt = $conn->prepare("SELECT judul,slug,gambar,tanggal FROM posts WHERE kategori_id=? AND status=1 ORDER BY tanggal DESC LIMIT 5");
+      $stmt->bind_param('i', $cat['id']);
+      $stmt->execute();
+      $posts = $stmt->get_result();
+      if(!$posts->num_rows) continue;
+      $cColor = catColor($cat['name'],$colorMap);
+    ?>
       <section class="news-section" style="--cat-clr:<?= $cColor ?>;">
         <h2 class="cat-title"><?= htmlspecialchars($cat['name']) ?></h2>
         <?php while($p = $posts->fetch_assoc()):
@@ -104,20 +97,10 @@ $sliderPosts = $conn->query("SELECT slug, gambar, judul FROM posts WHERE status=
         </article>
         <?php endwhile; ?>
       </section>
-      <?php endforeach; ?>
-    </div>
-
-    <!-- Sidebar Kanan: Populer -->
-    <aside class="sidebar">
-      <h3>Berita Populer</h3>
-      <ul class="popular-list">
-        <?php foreach($populer as $pop): ?>
-          <li><a href="artikel.php?slug=<?= urlencode($pop['slug']) ?>"><?= htmlspecialchars($pop['judul']) ?></a></li>
-        <?php endforeach; ?>
-      </ul>
-    </aside>
+    <?php endforeach; ?>
   </div>
 </div>
+
 <script>
 let currentIndex = 0;
 const slider = document.querySelector(".slider-track");
@@ -134,7 +117,7 @@ function prevSlide() {
   currentIndex = (currentIndex - 1 + slides.length) % slides.length;
   updateSlider();
 }
-setInterval(nextSlide, 5000); // auto-slide 5 detik
+setInterval(nextSlide, 5000);
 </script>
 
 <?php require_once __DIR__.'/inc/footer.php'; ?>
