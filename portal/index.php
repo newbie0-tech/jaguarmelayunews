@@ -20,7 +20,61 @@ $populer = $conn->query("SELECT judul,slug FROM posts WHERE status=1 ORDER BY vi
 ?>
 
 <link rel="stylesheet" href="/portal/css/index.css">
-
+<style>/* grid responsif kategori */
+.news-sections{
+  display:grid;
+  gap:32px;
+  padding:0 32px 60px;
+  grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+}
+.youtube-mini {
+  width: 100%;
+  aspect-ratio: 16/9;
+  border-radius: 6px;
+  border: none;
+}
+.slider {
+  position: relative;
+  overflow: hidden;
+  height: 250px;
+}
+.slider-track {
+  display: flex;
+  transition: transform 0.5s ease;
+}
+.slider img {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+.slider-controls {
+  position: absolute;
+  top: 40%;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 10px;
+}
+.slider-controls button {
+  background: rgba(0,0,0,0.5);
+  color: white;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+.iklan-box {
+  height: 250px;
+  background: #f3f3f3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px dashed #aaa;
+  border-radius: 8px;
+  font-weight: bold;
+}
+</style>
 
 <!-- index.php -->
 <link rel="stylesheet" href="css/style.css">
