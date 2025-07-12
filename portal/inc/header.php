@@ -36,10 +36,9 @@
 
   <nav class="main-nav">
     <a href="/portal/">Beranda</a>
-    <a href="#">Nasional</a>
-    <a href="#">Daerah</a>
-    <a href="#">Politik</a>
-    <a href="#">Pendidikan</a>
-    <a href="#">Dunia</a>
+    <a href="https://jaguarmelayunews-production.up.railway.app/jurnalis.php">Pendaftaran Jurnalis</a>
+    <a href="https://jaguarmelayunews-production.up.railway.app/sk.jpg">Legalitas</a>
+    <a href="https://jaguarmelayunews-production.up.railway.app/kontak.php">marketing</a>
+    
   </nav>
 </header>
