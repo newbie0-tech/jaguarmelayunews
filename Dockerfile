@@ -17,6 +17,7 @@ COPY . /var/www/html/
 
 # Buat folder uploads & beri izin penuh
 RUN mkdir -p /var/www/html/portal/uploads && chmod -R 777 /var/www/html/portal/uploads
+RUN mkdir -p /var/www/html/portal/assets/uploads && chmod -R 777 /var/www/html/portal/assets/uploads
 
 # Atur hak milik ke www-data (user Apache)
 RUN chown -R www-data:www-data /var/www/html
@@ -29,6 +30,7 @@ EXPOSE 80
 
 # (Opsional) Simbolik link ke volume data
 RUN ln -sfn /data/uploads /var/www/html/portal/uploads
+RUN ln -sfn /data/assets /var/www/html/portal/assets/uploads
 
 # Tambahkan konfigurasi agar AllowOverride All aktif (htaccess bisa jalan)
 RUN echo '<Directory /var/www/html/portal>' > /etc/apache2/conf-available/allowoverride.conf && \
