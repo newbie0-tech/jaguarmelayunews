@@ -1,3 +1,9 @@
+<?php
+// tentang.php – Halaman “Tentang Kami”
+require_once __DIR__.'/inc/db.php';
+require_once __DIR__.'/inc/header.php';
+
+?>
 <!DOCTYPE html><html lang="id">
 <head>
   <meta charset="UTF-8">
