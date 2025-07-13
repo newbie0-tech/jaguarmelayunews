@@ -9,20 +9,39 @@ body {
                margin:auto; 
                padding:10px; }
 
-.youtube-box { margin-bottom:30px; 
-              background:#fff;
-              padding:2px; 
-              border-radius:2px; 
-              box-shadow:0 2px 2px rgba(0,0,0,.05); }
-.youtube-wrapper { position:relative; 
-                  width:50%; 
-                  padding-top:56.25%; }
-.youtube-wrapper iframe { position:absolute; 
-                         top:0; left:0; 
-                         width:40%; 
-                         height:30%; 
-                         border:0; 
-                         border-radius:1px; }
+.youtube-box {
+  margin: 30px auto;
+  max-width: 720px;
+  padding: 10px;
+  background: #f8f8f8;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.youtube-box h3 {
+  font-size: 20px;
+  color: #003366;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.youtube-wrapper {
+  position: relative;
+  padding-bottom: 56.25%; /* 16:9 ratio */
+  height: 0;
+  overflow: hidden;
+  border-radius: 6px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+}
+
+.youtube-wrapper iframe {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
 
 .page-title { font-size:clamp(24px,3vw,32px); color:#6c4c35; text-align:center; margin:24px 0; font-weight:700; }
 
