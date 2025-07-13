@@ -52,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         elseif ($size > $MAX_UPLOAD)        $msg = '❌ Ukuran gambar maksimal 5 MB.';
         elseif ($_FILES['gambar']['error']) $msg = '❌ Terjadi error saat upload.';
         else {
-            $fname = time() . '_' . rand(1000,9999) . '.' . $ext;
+            $filename = time() . '_' . rand(1000,9999) . '.' . $ext;
             $dest = $uploadDir . $fname;
             if ($_FILES['gambar']['tmp_name']) {
   $tmpPath = $_FILES['gambar']['tmp_name'];
