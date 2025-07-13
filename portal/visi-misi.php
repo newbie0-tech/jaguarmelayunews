@@ -29,3 +29,4 @@ require_once __DIR__.'/inc/header.php';
   </div>
 </body>
 </html>  
+<?php require_once __DIR__.'/inc/footer.php'; ?>
