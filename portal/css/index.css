@@ -27,7 +27,7 @@ body {
 .page-title { font-size:clamp(24px,3vw,32px); color:#6c4c35; text-align:center; margin:24px 0; font-weight:700; }
 
 .main-grid { display:grid; grid-template-columns: 3fr 1fr; gap:10px; }
-@media(max-width:455px){ .main-grid { grid-template-columns:1fr; } }
+@media(max-width:115px){ .main-grid { grid-template-columns:1fr; } }
 
 .news-content, .sidebar { background:#fff; padding:16px; border-radius:8px; box-shadow:0 2px 10px rgba(0,0,0,.05); }
 
