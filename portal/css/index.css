@@ -55,7 +55,7 @@ body {
 .popular-list a { color:#0056b3; text-decoration:none; }
 
 .news-section { margin-bottom:40px; }
-.cat-title { font-size:20px; margin-bottom:16px; color: var(--cat-clr,#007bff); border-bottom:2px solid #eee; padding-bottom:6px; }
+.cat-title { font-size:15px; margin-bottom:16px; color: var(--cat-clr,#007bff); border-bottom:2px solid #eee; padding-bottom:6px; }
 .news-card { display:flex; gap:14px; margin-bottom:18px; align-items:center; }
 .news-card img { width:120px; height:80px; object-fit:cover; border-radius:4px; }
 .news-info h3 { margin:0 0 4px; font-size:16px; color:#333; }
