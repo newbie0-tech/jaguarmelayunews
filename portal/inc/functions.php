@@ -3,22 +3,22 @@
   $folder = '/uploads';
   $url = 'https://upload.imagekit.io/api/v1/files/upload';
 
-  $ch = curl_init();
-
   $fileData = curl_file_create($filePath, mime_content_type($filePath), $fileName);
 
-  $data = [
+  $postData = [
     'file' => $fileData,
     'fileName' => $fileName,
-    'folder' => $folder
+    'folder' => $folder,
+    'useUniqueFileName' => 'true'
   ];
 
+  $ch = curl_init();
   curl_setopt_array($ch, [
     CURLOPT_URL => $url,
     CURLOPT_POST => true,
     CURLOPT_RETURNTRANSFER => true,
     CURLOPT_USERPWD => $privateApiKey . ':',
-    CURLOPT_POSTFIELDS => $data
+    CURLOPT_POSTFIELDS => $postData
   ]);
 
   $response = curl_exec($ch);
@@ -27,4 +27,5 @@
   $result = json_decode($response, true);
   return $result['url'] ?? null;
 }
+
 
