@@ -38,7 +38,7 @@
     <a href="/portal/">Beranda</a>
     <a href="https://jaguarmelayunews-production.up.railway.app/jurnalis.php">Pendaftaran Jurnalis</a>
     <a href="https://jaguarmelayunews-production.up.railway.app/sk.jpg">Legalitas</a>
-    <a href="https://jaguarmelayunews-production.up.railway.app/kontak.php">marketing</a>
+    <a href="https://jaguarmelayunews-production.up.railway.app/kontak.php">Marketing</a>
     
   </nav>
 </header>
