@@ -1,4 +1,4 @@
-function uploadToImageKit($filePath, $fileName) {
+<? function uploadToImageKit($filePath, $fileName) {
   $privateApiKey = 'private_ROkEtEXNY4WW4roFa0LBBdXfHXw=';
   $folder = '/uploads';
   $url = 'https://upload.imagekit.io/api/v1/files/upload';
@@ -27,3 +27,4 @@ function uploadToImageKit($filePath, $fileName) {
   $result = json_decode($response, true);
   return $result['url'] ?? null;
 }
+?php>
