@@ -4,7 +4,7 @@ if (!isset($_SESSION['admin'])) { header('Location: login.php'); exit; }
 
 require_once __DIR__ . '/../inc/db.php';
 require_once __DIR__ . '/../inc/header.php';
-
+require_once __DIR__ . '/../inc/functions.php';
 $msg = '';
 $judul = $isi = $tags = '';
 $katID = 0;
