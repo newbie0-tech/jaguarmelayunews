@@ -15,7 +15,7 @@
         <button type="submit">🔍</button>
       </form>
       <div class="social-icons">
-        <a href="https://www.facebook.com"><img src="/portal/assets/icons/fb.ico" alt="Facebook"></a>
+        <a href="https://www.facebook.com"><img src="/portal/assets/icons/fb.png" alt="Facebook"></a>
         <a href="https://www.x.com"><img src="/portal/assets/icons/x.png" alt="Twitter/X"></a>
         <a href="hhttps://www.youtube.com"><img src="/portal/assets/icons/yt.png" alt="YouTube"></a>
       </div>
