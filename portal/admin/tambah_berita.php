@@ -54,8 +54,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         else {
             $fname = time() . '_' . rand(1000,9999) . '.' . $ext;
             $dest = $uploadDir . $fname;
-            if (move_uploaded_file($_FILES['gambar']['tmp_name'], $dest)) {
-                $gambar = 'uploads/' . $fname;
+            if ($_FILES['gambar']['tmp_name']) {
+  $tmpPath = $_FILES['gambar']['tmp_name'];
+  $fileName = basename($_FILES['gambar']['name']);
+  $uploadedUrl = uploadToImageKit($tmpPath, $fileName);
+
+  if ($uploadedUrl) {
+    $gambar = $uploadedUrl;
+  } else {
+    $msg = 'Upload ke ImageKit gagal.';
+  }
             } else {
                 $msg = '❌ Gagal menyimpan gambar.';
             }
