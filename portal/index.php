@@ -2,14 +2,18 @@
 require_once __DIR__.'/inc/db.php';
 require_once __DIR__.'/inc/header.php';
 
+// Ambil daftar kategori
 $categories = $conn->query("SELECT id, name FROM categories 
   ORDER BY FIELD(name, 'Budaya Lokal','Daerah','Dunia','Hukum','Nasional','Pendidikan','Politik'), name")->fetch_all(MYSQLI_ASSOC);
-$populer = $conn->query("SELECT judul,slug FROM posts WHERE status=1 ORDER BY views DESC LIMIT 5")->fetch_all(MYSQLI_ASSOC);
+
+// Ambil 5 berita populer
+$populer = $conn->query("SELECT judul, slug FROM posts WHERE status=1 ORDER BY views DESC LIMIT 5")->fetch_all(MYSQLI_ASSOC);
 ?>
 <link rel="stylesheet" href="/portal/css/index.css">
 
 <div class="page-wrapper">
-  <!-- YouTube kecil di bawah header -->
+
+  <!-- Embed YouTube di bawah header -->
   <div class="youtube-box">
     <h3>Jaguar Channel</h3>
     <div class="youtube-wrapper">
@@ -20,17 +24,43 @@ $populer = $conn->query("SELECT judul,slug FROM posts WHERE status=1 ORDER BY vi
   <h1 class="page-title">Berita Terbaru</h1>
 
   <div class="main-grid">
-    <!-- Konten utama (berita kategori) -->
+    <!-- Konten berita -->
     <div class="news-content">
-      <?php foreach($categories as $cat): /* loop berita per kategori */ endforeach; ?>
+      <?php foreach ($categories as $cat): 
+        $catId = $cat['id'];
+        $catName = $cat['name'];
+        $stmt = $conn->prepare("SELECT judul, slug, gambar, tanggal FROM posts WHERE kategori_id=? AND status=1 ORDER BY tanggal DESC LIMIT 4");
+        $stmt->bind_param('i', $catId);
+        $stmt->execute();
+        $posts = $stmt->get_result();
+        if ($posts->num_rows < 1) continue;
+      ?>
+        <section class="news-section">
+          <h2 class="cat-title"><?= htmlspecialchars($catName) ?></h2>
+          <?php while ($p = $posts->fetch_assoc()):
+            $imgSrc = $p['gambar'] ?: 'assets/placeholder.jpg';
+            $imgFull = '/portal/' . ltrim($imgSrc, '/');
+          ?>
+            <article class="news-card">
+              <a href="artikel.php?slug=<?= urlencode($p['slug']) ?>">
+                <img src="<?= htmlspecialchars($imgFull) ?>" alt="<?= htmlspecialchars($p['judul']) ?>">
+              </a>
+              <div class="news-info">
+                <h3><a href="artikel.php?slug=<?= urlencode($p['slug']) ?>"><?= htmlspecialchars($p['judul']) ?></a></h3>
+                <time datetime="<?= $p['tanggal'] ?>"><?= date('d M Y', strtotime($p['tanggal'])) ?></time>
+              </div>
+            </article>
+          <?php endwhile; ?>
+        </section>
+      <?php endforeach; ?>
     </div>
 
-    <!-- Sidebar kanan: Populer -->
+    <!-- Sidebar berita populer -->
     <aside class="sidebar">
       <h3>Berita Populer</h3>
       <ul class="popular-list">
-        <?php foreach($populer as $p): ?>
-          <li><a href="artikel.php?slug=<?= urlencode($p['slug']) ?>"><?= htmlspecialchars($p['judul']) ?></a></li>
+        <?php foreach ($populer as $pop): ?>
+          <li><a href="artikel.php?slug=<?= urlencode($pop['slug']) ?>"><?= htmlspecialchars($pop['judul']) ?></a></li>
         <?php endforeach; ?>
       </ul>
     </aside>
