@@ -39,7 +39,7 @@ $populer = $conn->query("SELECT judul, slug FROM posts WHERE status=1 ORDER BY v
           <h2 class="cat-title"><?= htmlspecialchars($catName) ?></h2>
           <?php while ($p = $posts->fetch_assoc()):
             $imgSrc = $p['gambar'] ?: 'assets/placeholder.jpg';
-            $imgFull = '/portal/' . ltrim($imgSrc, '/');
+            $imgFull =  (strops($imgSrc, 'http') === 0) ? $imgSrc : '/portal/' . ltrim($imgSrc, '/');
           ?>
             <article class="news-card">
               <a href="artikel.php?slug=<?= urlencode($p['slug']) ?>">
