@@ -41,6 +41,23 @@ body {
   height: 100%;
   border: 0;
 }
+.main-grid {
+  display: grid;
+  grid-template-columns: 120px 1fr 250px;
+  gap: 20px;
+}
+
+.left-ads {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ad-box img {
+  width: 100%;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
 
 
 .page-title { font-size:clamp(24px,3vw,32px); color:#6c4c35; text-align:center; margin:24px 0; font-weight:700; }
