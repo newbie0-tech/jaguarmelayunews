@@ -53,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         elseif ($_FILES['gambar']['error']) $msg = '❌ Terjadi error saat upload.';
         else {
             $filename = time() . '_' . rand(1000,9999) . '.' . $ext;
-            $dest = $uploadDir . $fname;
+            $dest = $uploadDir . $filename;
             if ($_FILES['gambar']['tmp_name']) {
   $tmpPath = $_FILES['gambar']['tmp_name'];
   $fileName = basename($_FILES['gambar']['name']);
