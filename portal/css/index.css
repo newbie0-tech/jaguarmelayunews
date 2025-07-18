@@ -95,7 +95,7 @@ body {
   height: auto;
   border-radius: 8px;
 }
-@media (max-width: 768px) {
+@media (max-width: 268px) {
   .main-grid {
     grid-template-columns: 1fr;
     padding: 10px;
