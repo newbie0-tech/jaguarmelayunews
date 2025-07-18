@@ -65,7 +65,36 @@ body {
 .main-grid { display:grid; grid-template-columns: 3fr 1fr; gap:10px; }
 @media(max-width:115px){ .main-grid { grid-template-columns:1fr; } }
 
-.news-content, .sidebar { background:#fff; padding:16px; border-radius:8px; box-shadow:0 2px 10px rgba(0,0,0,.05); }
+.news-content, 
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.popular-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.popular-list li {
+  margin-bottom: 8px;
+}
+
+.ads-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.ads-box img {
+  width: 100%;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
 
 .popular-list { list-style:none; padding:0; margin:0; }
 .popular-list li { margin-bottom:8px; }
