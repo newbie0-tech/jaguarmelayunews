@@ -21,6 +21,7 @@ $populer = $conn->query("SELECT judul, slug FROM posts WHERE status=1 ORDER BY v
   </div>
   <h1 class="page-title">Berita Terbaru</h1>
 <div class="main-grid">
+
   <!-- Kolom iklan kiri -->
   <div class="left-ads">
     <?php for ($i = 1; $i <= 5; $i++): ?>
@@ -78,6 +79,8 @@ $populer = $conn->query("SELECT judul, slug FROM posts WHERE status=1 ORDER BY v
       <?php endfor; ?>
     </div>
   </aside>
+
 </div>
+
 </div>
 <?php require_once __DIR__.'/inc/footer.php'; ?>
