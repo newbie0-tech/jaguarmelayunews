@@ -99,8 +99,8 @@ body {
   top: 100px;
 }
 .ads-box img {
-  width: 50%;
-  max-width: 80%;
+  width: 100%;
+  max-width: 100%;
   height: auto;
   border-radius: 8px;
   box-shadow: 0 0 5px rgba(0,0,0,0.2);
