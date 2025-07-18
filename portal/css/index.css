@@ -89,15 +89,25 @@ body {
   margin-bottom: 10px;
   text-align: center;
 }
+.ads-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 300px; /* Batasi tinggi maksimal sidebar */
+  overflow: hidden;
+  position: sticky;
+  top: 100px;
+}
 .ads-box img {
-  width: 100%;
-  max-width: 100%;
+  width: 20%;
+  max-width: 20%;
   height: auto;
   border-radius: 8px;
+  box-shadow: 0 0 5px rgba(0,0,0,0.2);
 }
 @media (max-width: 268px) {
   .main-grid {
     grid-template-columns: 1fr;
-    padding: 10px;
+    padding: 5px;
   }
 }
