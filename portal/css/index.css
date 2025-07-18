@@ -24,20 +24,28 @@ body {
   grid-template-columns: 120px 1fr 250px;
   gap: 20px;
 }
-.ad-box img {
-  width: 100%;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-}
-@media (max-width: 768px) {
-  .main-grid {
-    grid-template-columns: 1fr;
-  }
+
 .left-ads {
   display: flex;
   flex-direction: column;
   gap: 12px;
 }
+
+.ad-box img {
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+
+@media (max-width: 768px) {
+  .main-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .left-ads {
+    display: none;
+  }
 
 .youtube-box {
   margin: 30px auto;
