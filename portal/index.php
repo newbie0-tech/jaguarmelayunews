@@ -22,8 +22,7 @@ $populer = $conn->query("SELECT judul, slug FROM posts WHERE status=1 ORDER BY v
   <h1 class="page-title">Berita Terbaru</h1>
 
   <div class="main-grid">
-  <!-- Kolom iklan kiri -->
-  <div class="right-ads">
+    <div class="right-ads">
     <?php for ($i = 1; $i <= 5; $i++): ?>
       <div class="ad-box">
         <img src="/portal/assets/ads/iklan<?= $i ?>.png" alt="Iklan <?= $i ?>">
