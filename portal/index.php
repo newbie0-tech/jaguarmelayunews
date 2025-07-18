@@ -54,7 +54,7 @@ $populer = $conn->query("SELECT judul, slug FROM posts WHERE status=1 ORDER BY v
 
     <aside class="sidebar">
       <h3>Berita Populer</h3>
-      <ul class="popular-list" style="max-height: 220px; overflow-y: auto; padding-right: 5px;">
+      <ul class="popular-list" style="max-height: 110px; overflow-y: auto; padding-right: 3px;">
         <?php foreach ($populer as $pop): ?>
           <li><a href="artikel.php?slug=<?= urlencode($pop['slug']) ?>"><?= htmlspecialchars($pop['judul']) ?></a></li>
         <?php endforeach; ?>
