@@ -98,5 +98,6 @@ body {
 @media (max-width: 768px) {
   .main-grid {
     grid-template-columns: 1fr;
+    padding: 10px;
   }
 }
