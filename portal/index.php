@@ -67,7 +67,7 @@ $populer = $conn->query("SELECT judul, slug FROM posts WHERE status=1 ORDER BY v
   <div class="ads-sidebar">
     <?php for ($i = 1; $i <= 3; $i++): ?>
       <div class="ads-box">
-        <img src="/portal/assets/ads<?= $i ?>.jpg" alt="Iklan <?= $i ?>">
+        <img src="/portal/assets/ads/iklan2<?= $i ?>.png" alt="Iklan <?= $i ?>">
       </div>
     <?php endfor; ?>
   </div>
