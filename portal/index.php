@@ -88,5 +88,5 @@ $populer = $conn->query("SELECT judul, slug FROM posts WHERE status=1 ORDER BY v
       <img src="/portal/ads/iklan<?= $i ?>.jpg" alt="Iklan <?= $i ?>" class="img-fluid rounded" onerror="this.style.display='none'">
     </div>
   <?php endfor; ?>
-</div>
+</div></div>
        <?php require_once __DIR__.'/inc/footer.php'; ?>
