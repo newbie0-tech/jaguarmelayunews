@@ -67,26 +67,6 @@ header, header.site-header { background: #0057b8; color: #fff; padding: 10px 20p
   0%, 100% { opacity: 1; }
   50% { opacity: 0.4; }
 }
-
-.category-nav {
-  background: #00287e;
-  display: flex;
-  justify-content: center;
-  gap: 25px;
-  padding: 8px 0;
-  font-size: 14px;
-  border-bottom: 2px solid #003baf;
-}
-.category-nav a {
-  color: #ffcc66;
-  font-weight: bold;
-  text-decoration: none;
-}
-.category-nav a:hover {
-  text-decoration: underline;
-  color: #fff;
-}
-
 .berita-list .card {
   background: #fff;
   padding: 12px;
