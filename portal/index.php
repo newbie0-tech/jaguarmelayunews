@@ -1,4 +1,3 @@
-
 <?php
 require_once __DIR__.'/inc/db.php';
 require_once __DIR__.'/inc/header.php';
@@ -8,21 +7,21 @@ $categories = $conn->query("SELECT id, name FROM categories
 
 $populer = $conn->query("SELECT judul, slug FROM posts WHERE status=1 ORDER BY views DESC LIMIT 5")->fetch_all(MYSQLI_ASSOC);
 ?>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="/portal/css/index.css">
 
-<div class="page-wrapper">
-
-  <div class="youtube-box">
-    <h3>Jaguar Channel</h3>
-    <div class="youtube-wrapper">
+<div class="container py-4">
+  <div class="text-center mb-4">
+    <h3 class="text-warning">Jaguar Channel</h3>
+    <div class="ratio ratio-16x9">
       <iframe src="https://www.youtube.com/embed/pG0RgDw55kI" allowfullscreen></iframe>
     </div>
   </div>
 
-  <h1 class="page-title">Berita Terbaru</h1>
+  <h1 class="text-center text-warning mb-4">Berita Terbaru</h1>
 
-  <div class="main-grid">
-    <div class="news-content">
+  <div class="row">
+    <div class="col-lg-9">
       <?php foreach ($categories as $cat): 
         $catId = $cat['id'];
         $catName = $cat['name'];
@@ -32,42 +31,58 @@ $populer = $conn->query("SELECT judul, slug FROM posts WHERE status=1 ORDER BY v
         $posts = $stmt->get_result();
         if ($posts->num_rows < 1) continue;
       ?>
-        <section class="news-section">
-          <h2 class="cat-title"><?= htmlspecialchars($catName) ?></h2>
-          <?php while ($p = $posts->fetch_assoc()):
-            $imgSrc = $p['gambar'] ?: 'assets/placeholder.jpg';
-            $imgFull =  (strpos($imgSrc, 'http') === 0) ? $imgSrc : '/portal/' . ltrim($imgSrc, '/');
-          ?>
-            <article class="news-card">
-              <a href="artikel.php?slug=<?= urlencode($p['slug']) ?>">
-                <img src="<?= htmlspecialchars($imgFull) ?>" alt="<?= htmlspecialchars($p['judul']) ?>">
-              </a>
-              <div class="news-info">
-                <h3><a href="artikel.php?slug=<?= urlencode($p['slug']) ?>"><?= htmlspecialchars($p['judul']) ?></a></h3>
-                <time datetime="<?= $p['tanggal'] ?>"><?= date('d M Y', strtotime($p['tanggal'])) ?></time>
+        <section class="mb-4">
+          <h2 class="text-warning mb-3"><?= htmlspecialchars($catName) ?></h2>
+          <div class="row g-3">
+            <?php while ($p = $posts->fetch_assoc()):
+              $imgSrc = $p['gambar'] ?: 'assets/placeholder.jpg';
+              $imgFull =  (strpos($imgSrc, 'http') === 0) ? $imgSrc : '/portal/' . ltrim($imgSrc, '/');
+            ?>
+              <div class="col-md-6">
+                <div class="card bg-dark text-light h-100">
+                  <a href="artikel.php?slug=<?= urlencode($p['slug']) ?>">
+                    <img src="<?= htmlspecialchars($imgFull) ?>" class="card-img-top" alt="<?= htmlspecialchars($p['judul']) ?>">
+                  </a>
+                  <div class="card-body">
+                    <h5 class="card-title">
+                      <a href="artikel.php?slug=<?= urlencode($p['slug']) ?>" class="text-warning text-decoration-none">
+                        <?= htmlspecialchars($p['judul']) ?>
+                      </a>
+                    </h5>
+                    <p class="card-text">
+                      <small class="text-muted"><?= date('d M Y', strtotime($p['tanggal'])) ?></small>
+                    </p>
+                  </div>
+                </div>
               </div>
-            </article>
-          <?php endwhile; ?>
+            <?php endwhile; ?>
+          </div>
         </section>
       <?php endforeach; ?>
     </div>
 
-    <aside class="sidebar">
-      <h3>Berita Populer</h3>
-      <ul class="popular-list" style="max-height: 110px; overflow-y: auto; padding-right: 3px;">
-        <?php foreach ($populer as $pop): ?>
-          <li><a href="artikel.php?slug=<?= urlencode($pop['slug']) ?>"><?= htmlspecialchars($pop['judul']) ?></a></li>
-        <?php endforeach; ?>
-      </ul>
+    <div class="col-lg-3">
+      <div class="bg-dark p-3 rounded mb-4">
+        <h4 class="text-warning">Berita Populer</h4>
+        <ul class="list-unstyled overflow-auto" style="max-height: 150px;">
+          <?php foreach ($populer as $pop): ?>
+            <li class="mb-2">
+              <a href="artikel.php?slug=<?= urlencode($pop['slug']) ?>" class="text-light text-decoration-none">
+                <?= htmlspecialchars($pop['judul']) ?>
+              </a>
+            </li>
+          <?php endforeach; ?>
+        </ul>
+      </div>
 
-      <div class="ads-sidebar">
+      <div class="d-flex flex-column gap-3 sticky-top" style="top: 100px;">
         <?php for ($i = 1; $i <= 3; $i++): ?>
-          <div class="ads-box">
-            <img src="/portal/uploads/iklan1<?= $i ?>.jpg" alt="Iklan <?= $i ?>">
+          <div class="text-center bg-light rounded shadow-sm">
+            <img src="/portal/uploads/iklan1<?= $i ?>.jpg" alt="Iklan <?= $i ?>" class="img-fluid rounded">
           </div>
         <?php endfor; ?>
       </div>
-    </aside>
+    </div>
   </div>
 </div>
 
