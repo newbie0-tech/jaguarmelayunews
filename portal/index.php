@@ -85,7 +85,7 @@ $populer = $conn->query("SELECT judul, slug FROM posts WHERE status=1 ORDER BY v
 <div class="d-flex flex-column gap-3 sticky-top" style="top: 100px;">
   <?php for ($i = 1; $i <= 3; $i++): ?>
     <div class="text-center bg-light rounded shadow-sm p-2">
-      <img src="/portal/uploads/iklan<?= $i ?>.jpg" alt="Iklan <?= $i ?>" class="img-fluid rounded" onerror="this.style.display='none'">
+      <img src="/portal/uploads/iklan<?= $i ?>.png" alt="Iklan <?= $i ?>" class="img-fluid rounded" onerror="this.style.display='none'">
     </div>
   <?php endfor; ?>
 </div>
