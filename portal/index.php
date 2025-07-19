@@ -89,10 +89,4 @@ $populer = $conn->query("SELECT judul, slug FROM posts WHERE status=1 ORDER BY v
     </div>
   <?php endfor; ?>
 </div>
-        <?php endfor; ?>
-      </div>
-    </div>
-  </div>
-</div>
-
-<?php require_once __DIR__.'/inc/footer.php'; ?>
+       <?php require_once __DIR__.'/inc/footer.php'; ?>
