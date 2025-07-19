@@ -9,14 +9,18 @@ $populer = $conn->query("SELECT judul, slug FROM posts WHERE status=1 ORDER BY v
 ?>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="/portal/css/index.css">
-
 <div class="container py-4">
   <div class="text-center mb-4">
     <h3 class="text-warning">Jaguar Channel</h3>
-    <div class="ratio ratio-16x9">
-      <iframe src="https://www.youtube.com/embed/pG0RgDw55kI" allowfullscreen></iframe>
+    <div class="mx-auto" style="max-width: 480px;">
+      <div class="ratio ratio-16x9 rounded shadow-sm">
+        <iframe src="https://www.youtube.com/embed/pG0RgDw55kI" title="Jaguar Channel"
+          allowfullscreen></iframe>
+      </div>
     </div>
   </div>
+</div>
+
 <!-- Kategori Navigasi -->
 <nav class="category-nav text-center mb-4">
   <?php foreach ($categories as $cat): ?>
