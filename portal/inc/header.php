@@ -39,6 +39,12 @@
     <a href="https://jaguarmelayunews-production.up.railway.app/jurnalis.php">Pendaftaran Jurnalis</a>
     <a href="https://jaguarmelayunews-production.up.railway.app/sk.jpg">Legalitas</a>
     <a href="https://jaguarmelayunews-production.up.railway.app/kontak.php">Marketing</a>
-    
+    <nav class="category-nav">
+  <a href="/portal/kategori/budaya">Budaya Lokal</a>
+  <a href="/portal/kategori/daerah">Daerah</a>
+  <a href="/portal/kategori/dunia">Dunia</a>
+  <a href="/portal/kategori/hukum">Hukum</a>
+  <a href="/portal/kategori/politik">Politik</a>
+</nav>
   </nav>
 </header>
