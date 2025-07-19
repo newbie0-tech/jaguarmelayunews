@@ -82,12 +82,13 @@ $populer = $conn->query("SELECT judul, slug FROM posts WHERE status=1 ORDER BY v
           <?php endforeach; ?>
         </ul>
       </div>
-
-      <div class="d-flex flex-column gap-3 sticky-top" style="top: 100px;">
-        <?php for ($i = 1; $i <= 3; $i++): ?>
-          <div class="text-center bg-light rounded shadow-sm">
-            <img src="/portal/assets/ads/iklan1<?= $i ?>.png" alt="Iklan <?= $i ?>" class="img-fluid rounded">
-          </div>
+<div class="d-flex flex-column gap-3 sticky-top" style="top: 100px;">
+  <?php for ($i = 1; $i <= 3; $i++): ?>
+    <div class="text-center bg-light rounded shadow-sm p-2">
+      <img src="/portal/ads/iklan<?= $i ?>.jpg" alt="Iklan <?= $i ?>" class="img-fluid rounded" onerror="this.style.display='none'">
+    </div>
+  <?php endfor; ?>
+</div>
         <?php endfor; ?>
       </div>
     </div>
