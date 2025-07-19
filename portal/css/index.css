@@ -1,113 +1,116 @@
-
 body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #000066;
+  background-color: #000066;
   color: #fff;
+  font-family: Arial, sans-serif;
+  margin: 0;
 }
+
 .page-wrapper {
-  padding: 20px;
+  padding: 2rem;
 }
+
 .page-title {
   text-align: center;
   color: #ffcc66;
+  margin-bottom: 2rem;
 }
+
 .youtube-box {
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 2rem;
 }
+
 .youtube-box h3 {
-  margin-bottom: 10px;
+  margin-bottom: 1rem;
 }
+
 .youtube-wrapper iframe {
   width: 100%;
-  height: 250px;
+  aspect-ratio: 16 / 9;
   border: none;
 }
-.main-grid {
-  display: grid;
-  grid-template-columns: 3fr 1fr;
-  gap: 20px;
-}
-.news-section {
-  margin-bottom: 30px;
-}
+
 .cat-title {
   color: #ffcc66;
-  font-size: 1.5em;
-  margin-bottom: 10px;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
 }
+
 .news-card {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 20px;
-  background: #ffffff10;
-  border-radius: 10px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 0.5rem;
   overflow: hidden;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
+
 .news-card img {
   width: 100%;
   height: auto;
+  display: block;
 }
+
 .news-info {
-  padding: 10px;
-  background: #111155;
+  padding: 1rem;
+  background-color: #111155;
 }
+
 .news-info h3 {
-  margin: 0;
+  margin: 0 0 0.5rem 0;
+  font-size: 1.1rem;
 }
+
 .news-info a {
   color: #ffcc66;
   text-decoration: none;
 }
+
 .news-info time {
-  font-size: 0.9em;
-  color: #cccccc;
+  font-size: 0.875rem;
+  color: #ccc;
 }
+
 .sidebar {
-  background: #111133;
-  padding: 15px;
-  border-radius: 10px;
+  background-color: #111133;
+  padding: 1rem;
+  border-radius: 0.5rem;
 }
+
 .sidebar h3 {
   color: #ffcc66;
   margin-top: 0;
 }
+
 .popular-list {
   list-style: none;
   padding: 0;
-  margin: 0 0 20px 0;
+  margin-bottom: 1.5rem;
+  max-height: 8rem;
+  overflow-y: auto;
 }
+
 .popular-list li {
-  margin-bottom: 8px;
+  margin-bottom: 0.5rem;
 }
+
 .popular-list a {
-  color: #ccccff;
+  color: #ccc;
   text-decoration: none;
 }
-.ads-box {
-  margin-bottom: 10px;
-  text-align: center;
-}
+
 .ads-sidebar {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  max-height: 300px; /* Batasi tinggi maksimal sidebar */
-  overflow: hidden;
+  gap: 0.75rem;
   position: sticky;
   top: 100px;
+  max-height: 300px;
+  overflow: hidden;
 }
+
 .ads-box img {
   width: 100%;
-  max-width: 100%;
   height: auto;
-  border-radius: 8px;
-  box-shadow: 0 0 5px rgba(0,0,0,0.2);
-}
-@media (max-width: 268px) {
-  .main-grid {
-    grid-template-columns: 1fr;
-    padding: 5px;
-  }
+  border-radius: 0.5rem;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 }
