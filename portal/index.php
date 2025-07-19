@@ -17,6 +17,14 @@ $populer = $conn->query("SELECT judul, slug FROM posts WHERE status=1 ORDER BY v
       <iframe src="https://www.youtube.com/embed/pG0RgDw55kI" allowfullscreen></iframe>
     </div>
   </div>
+<!-- Kategori Navigasi -->
+<nav class="category-nav text-center mb-4">
+  <?php foreach ($categories as $cat): ?>
+    <a href="/portal/kategori.php?id=<?= $cat['id'] ?>" class="btn btn-outline-warning mx-1 mb-2">
+      <?= htmlspecialchars($cat['name']) ?>
+    </a>
+  <?php endforeach; ?>
+</nav>
 
   <h1 class="text-center text-warning mb-4">Berita Terbaru</h1>
 
