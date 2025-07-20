@@ -1,3 +1,13 @@
+<?php
+header('Content-Type: text/html; charset=utf-8');
+require_once __DIR__.'/inc/db.php';
+require_once __DIR__.'/inc/header.php';
+
+$categories = $conn->query("SELECT id, name FROM categories 
+  ORDER BY FIELD(name, 'Budaya Lokal','Daerah','Dunia','Hukum','Nasional','Pendidikan','Politik'), name")->fetch_all(MYSQLI_ASSOC);
+
+$populer = $conn->query("SELECT judul, slug FROM posts WHERE status=1 ORDER BY views DESC LIMIT 5")->fetch_all(MYSQLI_ASSOC);
+?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -117,5 +127,6 @@
       }
     }, 1000);
   </script>
+<?php require_once __DIR__.'/inc/footer.php'; ?>
 </body>
 </html>
