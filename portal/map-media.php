@@ -77,7 +77,7 @@ $populer = $conn->query("SELECT judul, slug FROM posts WHERE status=1 ORDER BY v
         referrerpolicy="no-referrer-when-downgrade">
       </iframe>
     </div>
-    <p class="small text-light">Alamat lengkap: Jl. Contoh No.123, Pekanbaru, Riau</p>
+    <p class="small text-light">Alamat lengkap: Jl. Lintas Timur KM 18-Kelurahan Tenayan Raya, Pekanbaru, Riau</p>
   </div>
 
 <?php require_once __DIR__.'/inc/footer.php'; ?>
