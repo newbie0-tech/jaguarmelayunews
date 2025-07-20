@@ -51,7 +51,7 @@ footer.site-footer {
         <li><a href="/portal/tentang.php">Tentang Kami</a></li>
         <li><a href="/portal/visi-misi.php">Visi &middot; Misi</a></li>
         <li><a href="/portal/map-media.php">Map Media</a></li>
-        <li><a href="/portal/kontak.php">Alamat / Kontak</a></li>
+        <li><a href="/portal/serba-serbi.php">POD CAST</a></li>
       </ul>
     </div>
     <div class="footer-col">
