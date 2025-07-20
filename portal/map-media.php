@@ -1,4 +1,5 @@
 <?php
+header('Content-Type: text/html; charset=utf-8');
 require_once __DIR__.'/inc/db.php';
 require_once __DIR__.'/inc/header.php';
 
@@ -71,11 +72,14 @@ $populer = $conn->query("SELECT judul, slug FROM posts WHERE status=1 ORDER BY v
     <p>Kantor pusat Jaguar Melayu News dapat ditemukan di lokasi berikut:</p>
     <div class="map-container my-4">
       <iframe
-        src="https://www.google.com/maps/embed?pb=!1m18..."
-        allowfullscreen
-        loading="lazy"
-        referrerpolicy="no-referrer-when-downgrade">
-      </iframe>
+  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d12738.460381621152!2d101.451355!3d0.507068!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31d5abff5e5a6c6d%3A0x8d49fc1a19d2337c!2sPekanbaru!5e0!3m2!1sid!2sid!4v1629111234567"
+  width="600"
+  height="450"
+  style="border:0;"
+  allowfullscreen=""
+  loading="lazy"
+  referrerpolicy="no-referrer-when-downgrade">
+</iframe>
     </div>
     <p class="small text-light">Alamat lengkap: Jl. Lintas Timur KM 18-Kelurahan Tenayan Raya, Pekanbaru, Riau</p>
   </div>
