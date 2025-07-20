@@ -10,7 +10,7 @@
       height: 100%;
       margin: 0;
       font-family: Arial, sans-serif;
-      background: url('/path/to/your/background.jpg') no-repeat center center fixed;
+      background: url('/portal/uploads/logo3kecil.png') no-repeat center center fixed;
       background-size: cover;
       color: white;
       text-align: center;
