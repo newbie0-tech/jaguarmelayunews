@@ -87,14 +87,14 @@ $populer = $conn->query("SELECT judul, slug FROM posts WHERE status=1 ORDER BY v
     <div class="kontak-info">
       <p><strong>Alamat:</strong> 
         <a href="https://www.google.com/maps?q=Jalan+Lintas+Timur+KM+16+Kulim,+Tenayan+Raya,+Pekanbaru,+Riau" target="_blank">
-          Jalan Lintas Timur KM 16, Kulim, Tenayan Raya, Kota Pekanbaru – Riau
+          Jalan Lintas Timur KM 18, Kulim, Tenayan Raya, Kota Pekanbaru – Riau
         </a>
       </p>
       <p><strong>Email:</strong> 
         <a href="mailto:linkidindonesia@gmail.com">linkidindonesia@gmail.com</a>
       </p>
       <p><strong>Telepon / WhatsApp:</strong> 
-        <a href="https://wa.me/6282100001234" target="_blank">0821-0000-1234</a>
+        <a href="https://wa.me/62895" target="_blank">Whatsapp</a>
       </p>
       <p><strong>Jam Operasional:</strong> 
         Senin–Jumat, 09:00–17:00 WIB<br>
