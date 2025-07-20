@@ -8,7 +8,7 @@ $categories = $conn->query("SELECT id, name FROM categories
 
 $populer = $conn->query("SELECT judul, slug FROM posts WHERE status=1 ORDER BY views DESC LIMIT 5")->fetch_all(MYSQLI_ASSOC);
 
-$iklanFolder = __DIR__ . '/uploads/';
+$iklanFolder = __DIR__ . '/assets/iklan/';
 $iklanFiles = glob($iklanFolder . '*.{jpg,jpeg,png,gif,webp}', GLOB_BRACE);
 shuffle($iklanFiles);
 $iklanFiles = array_slice($iklanFiles, 0, 3);
@@ -29,7 +29,7 @@ $iklanFiles = array_slice($iklanFiles, 0, 3);
     <div class="d-md-none mt-3">
       <?php foreach ($iklanFiles as $ik): ?>
         <div class="iklan-box bg-light rounded my-2 p-2 text-center">
-          <img src="/portal/uploads/<?= htmlspecialchars(basename($ik)) ?>" class="img-fluid rounded" alt="Iklan">
+          <img src="/portal/assets/iklan/<?= htmlspecialchars(basename($ik)) ?>" class="img-fluid rounded" alt="Iklan">
         </div>
       <?php endforeach; ?>
     </div>
@@ -103,7 +103,7 @@ $iklanFiles = array_slice($iklanFiles, 0, 3);
     <div class="d-flex flex-column gap-3 sticky-top" style="top: 100px;">
       <?php foreach ($iklanFiles as $ik): ?>
         <div class="iklan-box text-center bg-light rounded shadow-sm p-2">
-          <img src="/portal/uploads/<?= htmlspecialchars(basename($ik)) ?>" class="img-fluid rounded" alt="Iklan">
+          <img src="/portal/assets/iklan/<?= htmlspecialchars(basename($ik)) ?>" class="img-fluid rounded" alt="Iklan">
         </div>
       <?php endforeach; ?>
     </div>
